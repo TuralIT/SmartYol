@@ -12,7 +12,9 @@ body {
     overflow: hidden;
 }
 
-/* --- VARIABLES --- */
+/* ==========================================================================
+                                VARIABLES
+   ========================================================================== */
 :root {
     --brand-blue: #8CC63F;
     --brand-green: #8CC63F;
@@ -36,22 +38,9 @@ body, html {
     overscroll-behavior: none; /* iPhone-da "rezin" effektini ləğv et */
 }
 
-/* --- DARK MODE VARIABLES --- */
-body.dark-mode {
-    --bg-grey: #292929;       /* Arxa fon qapqara */
-    --white: #1E1E1E;         /* Kartlar tünd boz */
-    --text-dark: #ffffff;     /* Yazılar ağ */
-    --text-light: #aaaaaa;    /* İkinci dərəcəli yazılar açıq boz */
-    --shadow: 0 4px 15px rgba(0,0,0,0.5); /* Kölgələr daha tünd */
-}
-
-/* Bəzi xüsusi elementlər üçün düzəlişlər */
-body.dark-mode .phone-case {
-    box-shadow: 0 0 0 2px #333333; /* Telefon çərçivəsi itməsin */
-}
-
-
-/* --- PHONE CHASSIS (Desktop Mode) --- */
+/* ==========================================================================
+                            PHONE CHASSIS (Desktop Mode)
+   ========================================================================== */
 .phone-wrapper {
     position: relative;
     transform: scale(0.95);
@@ -104,7 +93,9 @@ body.dark-mode .phone-case {
     .side-btn, .notch { display: none; }
 }
 
-/* --- SCREEN MANAGEMENT --- */
+/* ==========================================================================
+                                SCREEN MANAGEMENT
+   ========================================================================== */
 .app-view {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -151,7 +142,9 @@ body.dark-mode .phone-case {
 .header-title { font-weight: bold; color: var(--brand-blue); font-size: 16px; }
 .btn-icon { font-size: 22px; cursor: pointer; color: var(--brand-blue); background: none; border: none; padding: 0;}
 
-/* VIEW 1: HOME */
+/* ==========================================================================
+                                VIEW 1: HOME 
+   ========================================================================== */
 #view-home { 
     /* background-image silindi, çünki artıq canlı xəritə var */
     position: relative; 
@@ -188,85 +181,327 @@ body.dark-mode .phone-case {
     z-index: 10; /* Xəritədən yuxarı */
 }
 
-/* VIEW 2: PROFILE */
-.profile-header { background: var(--brand-blue); color: white; padding: 80px 20px 30px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
-.user-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-.avatar { width: 60px; height: 60px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--brand-blue); }
-.stat-card { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; backdrop-filter: blur(5px); }
-.menu-list { padding: 20px; }
-.menu-row { background: white; padding: 15px; margin-bottom: 10px; border-radius: 15px; display: flex; justify-content: space-between; cursor: pointer; }
-
-/* VIEW 3: SEARCH */
-.search-container { padding: 20px; background: white; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; padding-top: 60px; }
-.input-group { display: flex; align-items: center; margin-bottom: 15px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 15px; }
-.dot-blue { background: var(--brand-blue); }
-.dot-green { background: var(--brand-green); }
-.clean-input { border: 1px solid #eee; background: var(--bg-grey); padding: 12px; border-radius: 10px; width: 100%; font-size: 16px; outline: none; }
-.clean-input:focus { border-color: var(--brand-blue); background: white; }
-.recent-list { padding: 20px; }
-.recent-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; cursor: pointer; }
-.icon-box { width: 35px; height: 35px; background: #eef; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 14px; }
-
-/* VIEW 4: RESULTS */
-.filters { padding: 10px 20px; display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-.filter-chip { padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s;}
-.chip-active { background: var(--brand-blue); color: white; }
-.chip-inactive { background: white; color: #777; border: 1px solid #eee; }
-
-.results-list { padding: 10px 20px 100px; }
-
-.taxi-card {
-    background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px;
-    display: flex; align-items: center; position: relative;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: transform 0.1s;
+/* ==========================================================================
+                                VIEW 2-5: PROFILE 
+   ========================================================================== */
+.profile-header { 
+    background: var(--brand-blue); /* Əsas brend rəngi */
+    color: white; 
+    
+    /* Yuxarıdan 80px boşluq veririk ki, Notch (kamera kəsiyi) yazını örtməsin */
+    padding: 80px 20px 30px;    
+    
+    /* Yalnız aşağı küncləri yuvarlaqlaşdırırıq */
+    border-bottom-left-radius: 30px; 
+    border-bottom-right-radius: 30px; 
 }
-.taxi-card:active { transform: scale(0.98); }
-.best-border { border: 2px solid var(--brand-green); }
 
-.logo-box { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; margin-right: 15px; flex-shrink: 0; font-size: 14px;}
+/* --- İstifadəçi Məlumatı Bloku --- */
+.user-info { 
+    display: flex; 
+    align-items: center; /* Şaquli mərkəzləmə */
+    gap: 15px;           /* Avatar və yazı arasındakı məsafə */
+    margin-bottom: 20px; 
+}
+
+/* --- İstifadəçi Fotosu (Avatar) --- */
+.avatar { 
+    width: 60px; 
+    height: 60px; 
+    background: #fff; 
+    border-radius: 50%; /* Tam dairəvi forma */
+    
+    /* İçindəki ikonu və ya hərfi tam mərkəzə gətirmək üçün */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    
+    font-size: 30px; 
+    color: var(--brand-blue); 
+}
+
+/* --- Statistika Kartı (Glassmorphism Effect) --- */
+.stat-card { 
+    background: rgba(255, 255, 255, 0.1); /* Yarımşəffaf ağ fon */
+    padding: 15px; 
+    border-radius: 15px; 
+    
+    /* Arxadakı fonu bulandıran "Buzlu Şüşə" effekti */
+    backdrop-filter: blur(5px); 
+}
+
+/* --- Menyu Siyahısı Konteyneri --- */
+.menu-list { 
+    padding: 20px; 
+}
+
+/* --- Menyu Sətirləri (Düymələr) --- */
+.menu-row { 
+    background: white; 
+    padding: 15px; 
+    margin-bottom: 10px; 
+    border-radius: 15px; 
+    
+    /* Sol tərəfdə yazı, sağ tərəfdə ox/ikon olsun deyə */
+    display: flex; 
+    justify-content: space-between; 
+    
+    cursor: pointer; /* Kliklənə bilən olduğu bilinsin */
+}
+
+/* ==========================================================================
+                                VIEW 6: SEARCH 
+   ========================================================================== */
+/* --- Axtarış Konteyneri --- */
+.search-container { 
+    padding: 20px; 
+    background: white; 
+    
+    /* Yalnız aşağı küncləri yuvarlaqlaşdırırıq (Dizayn effekti) */
+    border-bottom-left-radius: 25px; 
+    border-bottom-right-radius: 25px; 
+    
+    /* Yuxarıdan əlavə boşluq (Header və ya Notch üçün) */
+    padding-top: 60px; 
+}
+
+/* --- Giriş Qrupu (Input + İkon) --- */
+.input-group { 
+    display: flex; 
+    align-items: center; /* Elementləri şaquli mərkəzləyir */
+    margin-bottom: 15px; /* Hər giriş sahəsi arasında boşluq */
+}
+
+/* --- Rəngli Nöqtələr (A və B məntəqəsi göstəriciləri) --- */
+.dot { 
+    width: 8px; 
+    height: 8px; 
+    border-radius: 50%; /* Tam dairə */
+    margin-right: 15px; /* Inputdan məsafə */
+}
+
+/* Başlanğıc nöqtəsi rəngi */
+.dot-blue { 
+    background: var(--brand-blue); 
+}
+
+/* Təyinat nöqtəsi rəngi */
+.dot-green { 
+    background: var(--brand-green); 
+}
+
+/* --- Təmiz Input Sahəsi --- */
+.clean-input { 
+    border: 1px solid #eee; 
+    background: var(--bg-grey); /* Yüngül boz fon */
+    padding: 12px; 
+    border-radius: 10px; 
+    width: 100%; 
+    font-size: 16px; /* Mobil üçün oxunaqlı ölçü */
+    outline: none;   /* Standart mavi çərçivəni ləğv et */
+}
+
+/* Inputa klikləyəndə baş verən effekt */
+.clean-input:focus { 
+    border-color: var(--brand-blue); /* Çərçivə göy olur */
+    background: white;               /* Fon ağarır */
+}
+
+/* --- Son Axtarışlar Siyahısı --- */
+.recent-list { 
+    padding: 20px; 
+}
+
+/* --- Siyahı Elementi (Tək sətir) --- */
+.recent-item { 
+    display: flex; 
+    align-items: center; 
+    padding: 15px 0; 
+    border-bottom: 1px solid #eee; /* Alt xətt */
+    cursor: pointer; 
+}
+
+/* --- İkon Qutusu (Məkan ikonu üçün fon) --- */
+.icon-box { 
+    width: 35px; 
+    height: 35px; 
+    background: #eef; /* Çox açıq göy/boz fon */
+    border-radius: 50%; /* Dairəvi */
+    
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    
+    margin-right: 15px; 
+    font-size: 14px; 
+}
+
+/* ==========================================================================
+                                VIEW 7: RESULTS 
+   ========================================================================== */
+
+/* --- Filtrlər Paneli (Horizontal Scroll) --- */
+.filters { 
+    padding: 10px 20px; 
+    display: flex; 
+    gap: 10px; /* Filtrlər arasındakı məsafə */
+    
+    /* Üfüqi sürüşdürməni aktiv edirik (Barmaqla sağa-sola) */
+    overflow-x: auto; 
+    
+    /* Scroll çubuğunu gizlədirik (Firefox üçün) */
+    scrollbar-width: none; 
+}
+
+/* Scroll çubuğunu gizlətmək (Chrome/Safari üçün) */
+.filters::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* --- Filtr Düyməsi (Ümumi Stil) --- */
+.filter-chip { 
+    padding: 8px 18px; 
+    border-radius: 20px; 
+    font-size: 13px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    
+    /* Yazı uzun olsa belə qırılmasın (bir sətirdə qalsın) */
+    white-space: nowrap; 
+    
+    transition: 0.2s; /* Rəng dəyişimi üçün yumşaq keçid */
+}
+
+/* Seçilmiş Filtr (Aktiv) */
+.chip-active { 
+    background: var(--brand-blue); 
+    color: white; 
+}
+
+/* Seçilməmiş Filtr (Passiv) */
+.chip-inactive { 
+    background: white; 
+    color: #777; 
+    border: 1px solid #eee; 
+}
+
+/* --- Nəticələr Siyahısı Konteyneri --- */
+.results-list { 
+    /* Aşağıdan 100px boşluq buraxırıq ki, sonuncu kart düymənin altında qalmasın */
+    padding: 10px 20px 100px; 
+}
+
+/* --- Taksi Kartı (Ana Komponent) --- */
+.taxi-card {
+    background: white; 
+    border-radius: 20px; 
+    padding: 15px; 
+    margin-bottom: 15px; /* Kartlar arası məsafə */
+    
+    display: flex; 
+    align-items: center; /* Şaquli mərkəzləmə */
+    position: relative;
+    
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Yüngül kölgə */
+    transition: transform 0.1s; 
+}
+
+/* Karta basanda yüngülcə kiçilmə effekti (Klik hissi) */
+.taxi-card:active { 
+    transform: scale(0.98); 
+}
+
+/* Ən Ucuz Qiymət üçün Yaşıl Çərçivə */
+.best-border { 
+    border: 2px solid var(--brand-green); 
+}
+
+/* --- Taksi Logoları (Ümumi Qutu) --- */
+.logo-box { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 12px; 
+    
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    
+    font-weight: bold; 
+    color: white; 
+    margin-right: 15px; 
+    flex-shrink: 0; /* Logo sıxılmasın */
+    font-size: 14px;
+}
+
+/* --- Brend Rəngləri --- */
 .bolt { background: #34D186; }
 .uber { background: black; }
 .yango { background: #FC3F1D; font-family: serif; }
 .t189 { background: #800000; font-size: 12px; }
 .maxim { background: #FFCC00; color: black; font-size: 12px; }
 
-.price-area { margin-left: auto; text-align: right; }
-.price-val { font-size: 18px; font-weight: 800; color: var(--brand-blue); }
-.btn-sm { font-size: 12px; padding: 5px 12px; border-radius: 8px; margin-top: 5px; cursor: pointer; font-weight: bold;}
-.btn-green { background: var(--brand-green); color: white; border: none; }
-.btn-outline { background: transparent; border: 1px solid #ddd; color: var(--brand-blue); }
+/* --- Qiymət və Düymə Sahəsi --- */
+.price-area { 
+    margin-left: auto; /* Sağa yaslayırıq */
+    text-align: right; 
+}
 
+.price-val { 
+    font-size: 18px; 
+    font-weight: 800; 
+    color: var(--brand-blue); 
+}
+
+/* --- Kiçik Sifariş Düymələri --- */
+.btn-sm { 
+    font-size: 12px; 
+    padding: 5px 12px; 
+    border-radius: 8px; 
+    margin-top: 5px; 
+    cursor: pointer; 
+    font-weight: bold;
+}
+
+.btn-green { 
+    background: var(--brand-green); 
+    color: white; 
+    border: none; 
+}
+
+.btn-outline { 
+    background: transparent; 
+    border: 1px solid #ddd; 
+    color: var(--brand-blue); 
+}
+
+/* --- Üzən Bildiriş Düyməsi (FAB - Floating Action Button) --- */
 .fab-alert {
-    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: var(--brand-blue); color: white; padding: 12px 24px; border-radius: 40px;
-    box-shadow: 0 10px 25px rgba(26, 65, 117, 0.4); font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; gap: 8px; white-space: nowrap; z-index: 100;
+    position: absolute; 
+    bottom: 30px; 
+    
+    /* Tam mərkəzə gətirmək üçün texnika */
+    left: 50%; 
+    transform: translateX(-50%);
+    
+    background: var(--brand-blue); 
+    color: white; 
+    padding: 12px 24px; 
+    border-radius: 40px; 
+    
+    box-shadow: 0 10px 25px rgba(26, 65, 117, 0.4); /* Qabarıq kölgə */
+    font-weight: 600; 
+    cursor: pointer; 
+    
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    white-space: nowrap; 
+    z-index: 100; /* Digər elementlərin üstündə dursun */
 }
 
-/* --- MODAL --- */
-.modal-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); z-index: 2000;
-    display: none; align-items: flex-end;
-    opacity: 0; transition: opacity 0.3s;
-}
-.modal-overlay.show { display: flex; opacity: 1; }
-
-.modal-body {
-    background: white; width: 100%; padding: 25px 20px 40px;
-    border-top-left-radius: 30px; border-top-right-radius: 30px;
-    transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.modal-overlay.show .modal-body { transform: translateY(0); }
-
-.graph-area { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; margin: 20px 0; border-bottom: 1px solid #eee; padding-bottom: 5px;}
-.bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; }
-.bar { width: 30px; border-radius: 5px 5px 0 0; position: relative; }
-.bar span { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: bold; }
-.label { font-size: 10px; color: #999; margin-top: 5px; }
-
-/* --- ORDER SCREEN STYLES --- */
+/* ==========================================================================
+                                VIEW 8: ORDER
+   ========================================================================== */
 
 /* Ağ panel aşağıda durur */
 .order-panel {
@@ -304,7 +539,9 @@ background: white;
     100% { transform: rotate(360deg); }
 }
 
-/* --- CALL SCREEN STYLES --- */
+/* ==========================================================================
+                                VIEW 9: CALL
+   ========================================================================== */
 
 .call-avatar-container {
     position: relative;
@@ -359,7 +596,9 @@ background: white;
 
 .round-btn:active { transform: scale(0.9); }
 
-/* --- RATING SCREEN --- */
+/* ==========================================================================
+                                VIEW 10: RATING
+   ========================================================================== */
 
 .star-container {
     display: flex;
@@ -402,7 +641,13 @@ background: white;
     border-color: #e74c3c;
 }
 
-/* --- NEW YEAR THEME --- */
+/* ==========================================================================
+                                THEMES
+   ========================================================================== */
+
+/* ===============================================
+                    NEW YEAR THEME 
+   =============================================== */
 
 /* Yeni il modu aktiv olanda rənglər dəyişir */
 body.new-year-mode {
@@ -441,5 +686,116 @@ body.new-year-mode {
 /* Qaranlıq rejimdə qar daha qəşəng görünsün */
 body.dark-mode .snowflake {
     text-shadow: 0 0 5px rgba(255,255,255,0.8);
+}
+
+/* ===============================================
+                DARK MODE VARIABLES 
+   =============================================== */
+
+body.dark-mode {
+    --bg-grey: #292929;       /* Arxa fon qapqara */
+    --white: #1E1E1E;         /* Kartlar tünd boz */
+    --text-dark: #ffffff;     /* Yazılar ağ */
+    --text-light: #aaaaaa;    /* İkinci dərəcəli yazılar açıq boz */
+    --shadow: 0 4px 15px rgba(0,0,0,0.5); /* Kölgələr daha tünd */
+}
+
+/* Bəzi xüsusi elementlər üçün düzəlişlər */
+body.dark-mode .phone-case {
+    box-shadow: 0 0 0 2px #333333; /* Telefon çərçivəsi itməsin */
+}
+
+/* ==========================================================================
+                    MODALLAR VƏ QRAFİKLƏR (MODALS & GRAPHS)
+   ========================================================================== */
+
+/* --- Modal Arxa Fon (Qaraltma) --- */
+.modal-overlay {
+    position: absolute; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    
+    /* Yarımşəffaf qara fon */
+    background: rgba(0,0,0,0.5); 
+    
+    z-index: 2000; /* Hər şeyin üstündə durması üçün yüksək rəqəm */
+    
+    display: none; /* Susmaya görə gizli */
+    align-items: flex-end; /* Modalı ekranın aşağısına yaslayır (Bottom Sheet stili) */
+    
+    opacity: 0; 
+    transition: opacity 0.3s; /* Açılıb-bağlanarkən yumşaq keçid */
+}
+
+/* Modal Aktiv Olarkən */
+.modal-overlay.show { 
+    display: flex; 
+    opacity: 1; 
+}
+
+/* --- Modal Gövdəsi (Ağ Panel) --- */
+.modal-body {
+    background: white; 
+    width: 100%; 
+    padding: 25px 20px 40px;
+    
+    /* Yalnız yuxarı küncləri yuvarlaqlaşdırırıq */
+    border-top-left-radius: 30px; 
+    border-top-right-radius: 30px; 
+    
+    /* Başlanğıcda ekranın aşağısında gizlənir (100% aşağı sürüşdürülüb) */
+    transform: translateY(100%); 
+    
+    /* "Bouncy" (Yaylanan) animasiya effekti */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Modal açılanda panel yuxarı (öz yerinə) çıxır */
+.modal-overlay.show .modal-body { 
+    transform: translateY(0); 
+}
+
+/* --- Qrafik Sahəsi (Statistika üçün) --- */
+.graph-area { 
+    display: flex; 
+    align-items: flex-end; /* Sütunları aşağıdan yuxarı düzür */
+    justify-content: space-between; 
+    
+    height: 120px; 
+    margin: 20px 0; 
+    border-bottom: 1px solid #eee; /* X oxu xətti */
+    padding-bottom: 5px;
+}
+
+/* --- Sütun Konteyneri --- */
+.bar-col { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    flex: 1; /* Bərabər paylansınlar */
+}
+
+/* --- Qrafik Sütunu (Bar) --- */
+.bar { 
+    width: 30px; 
+    border-radius: 5px 5px 0 0; /* Yuxarı künclər yuvarlaq */
+    position: relative; 
+}
+
+/* --- Sütun Üzərindəki Rəqəm (Qiymət) --- */
+.bar span { 
+    position: absolute; 
+    top: -20px; /* Sütunun üstünə çıxarır */
+    left: 50%; 
+    transform: translateX(-50%); /* Tam mərkəzləyir */
+    
+    font-size: 11px; 
+    font-weight: bold; 
+}
+
+/* --- Aşağı Etiket (Məs: Günlər) --- */
+.label { 
+    font-size: 10px; 
+    color: #999; 
+    margin-top: 5px; 
 }
 
