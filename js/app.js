@@ -300,9 +300,9 @@ const SmartYol = (() => {
                 ${badge}
                 <div class="logo-box ${ride.class}">${safeHTML(ride.name)}</div>
                 <div>
-                    <div style="font-weight:bold; color:#2c3e50;">${safeHTML(ride.name)}</div>
-                    <div style="font-size:12px; color:#999; margin-top:3px;">
-                        <span style="color:#2c3e50; font-weight:600;">${safeHTML(ride.displayCar)}</span> 
+                    <div style="font-weight:bold;">${safeHTML(ride.name)}</div>
+                    <div style="font-size:12px; color:var(--text-light); margin-top:3px;">
+                        <span style="font-weight:600;">${safeHTML(ride.displayCar)}</span> 
                         • ${ride.time} dəq
                     </div>
                 </div>

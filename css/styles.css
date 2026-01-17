@@ -2,7 +2,8 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
-    background-color: #2c3e50;
+    background-color: var(--bg-grey);
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -166,16 +167,23 @@ body, html {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- UI ELEMENTS --- */
+/* Bu qutu həm başlığı, həm də filtrləri özündə saxlayır və yuxarı yapışır */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg-grey); /* Arxa fonun görünməməsi üçün */
+}
+
 .header-nav {
     /* FIX: precise padding using safe-area variable */
-    padding-top: calc(var(--safe-top) + 15px);
+    padding-top: calc(var(--safe-top) + 10px);
     padding-bottom: 15px;
     padding-left: 20px;
     padding-right: 20px;
     
     background: var(--white);
     display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 50;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 
@@ -339,6 +347,7 @@ body, html {
     width: 100%; 
     font-size: 16px; /* Mobil üçün oxunaqlı ölçü */
     outline: none;   /* Standart mavi çərçivəni ləğv et */
+    color: var(--text-dark);
 }
 
 /* Inputa klikləyəndə baş verən effekt */
@@ -382,17 +391,13 @@ body, html {
 
 /* --- Filtrlər Paneli (Horizontal Scroll) --- */
 .filters { 
-    padding: 10px 20px; 
+    padding: 10px 20px 15px; 
     display: flex; 
     gap: 10px;
+    overflow-x: auto;
     scrollbar-width: none;
     flex-wrap: wrap;
-    
-    /* FIX: Ensure background matches so it doesn't look transparent over scrolling items */
     background: var(--bg-grey); 
-    position: sticky; /* Optional: Makes buttons stick while scrolling list */
-    top: 60px; /* Adjust based on header height if using sticky */
-    z-index: 40;
 }
 
 /* Scroll çubuğunu gizlətmək (Chrome/Safari üçün) */
@@ -422,21 +427,22 @@ body, html {
 
 /* Seçilməmiş Filtr (Passiv) */
 .chip-inactive { 
-    background: white; 
-    color: #777; 
-    border: 1px solid #eee; 
+    background: var(--white); /* FIX: Dark mode-da qaralacaq */
+    color: var(--text-light); 
+    border: 1px solid transparent; /* Sərhəd rəngini yumşaldırıq */
 }
 
 /* --- Nəticələr Siyahısı Konteyneri --- */
 .results-list { 
     /* FIX: Add top margin to separate from buttons */
     margin-top: 15px; 
-    padding: 0 20px 120px; /* Increased bottom padding for scrolling space */
+    padding: 0 20px 0px;
 }
 
 /* --- Taksi Kartı (Ana Komponent) --- */
 .taxi-card {
-    background: white; 
+    background: var(--white); /* FIX */
+    color: var(--text-dark);  /* Yazı rəngini də avtomatik edirik */
     border-radius: 20px; 
     padding: 15px; 
     margin-bottom: 15px; /* Kartlar arası məsafə */
@@ -520,7 +526,7 @@ body, html {
 /* --- Üzən Bildiriş Düyməsi (FAB - Floating Action Button) --- */
 .fab-alert {
     position: absolute; 
-    bottom: 30px; 
+    bottom: 0px; 
     
     /* Tam mərkəzə gətirmək üçün texnika */
     left: 50%; 
@@ -559,6 +565,14 @@ background: white;
     box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
     animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     pointer-events: auto;
+}
+
+#view-order {
+    /* FIX: Panel aşağıya tam yapışsın və artıq boşluq yaranmasın */
+    padding-bottom: 0;
+    
+    /* Əgər panelin arxasındakı boş yerin sürüşməsini istəmirsinizsə: */
+    overflow-y: hidden; 
 }
 
 @keyframes slideUp {
