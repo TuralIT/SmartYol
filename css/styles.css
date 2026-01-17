@@ -1177,3 +1177,90 @@ body {
         justify-content: center;
     }
 }
+
+/* ==========================================================================
+                 MOBILE FIX: REAL DEVICE MODE (Tam Ekran)
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* 1. Səhifənin sürüşməsini və arxa fonu düzəldirik */
+    body, html {
+        background-color: #000; /* Kənarlar qara olsun */
+        overflow: hidden; /* Səhifə aşağı-yuxarı oynamasın */
+        width: 100%;
+        height: 100%;
+        position: fixed; /* IOS-da "bounce" effektini silir */
+    }
+
+    /* 2. Təqdimat strukturunu ləğv edirik */
+    .showcase-grid {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* 3. Sağ tərəfdəki yazıları və QR kodu gizlədirik */
+    .pitch-content {
+        display: none !important;
+    }
+
+    /* 4. Telefon çərçivəsini "soyundururuq" (Unwrap) */
+    .phone-3d {
+        width: 100vw;  /* Ekranın tam eni */
+        height: 100vh; /* Ekranın tam hündürlüyü */
+        
+        /* Bütün dekorativ effektləri silirik */
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
+        transform: none !important; /* 3D əyilməni ləğv et */
+        pointer-events: auto; /* Toxunuşları aktiv et */
+    }
+    
+    /* Hover effektini də söndürürük */
+    .phone-3d:hover {
+        transform: none !important;
+        scale: 1 !important;
+    }
+
+    /* Fiziki düymələri gizlədirik */
+    .p-btn {
+        display: none !important;
+    }
+
+    /* 5. Ekranı tam açırıq */
+    .phone-screen {
+        width: 100%;
+        height: 100%;
+        border-radius: 0; /* Küncləri düz edirik */
+    }
+
+    /* iOS Divar kağızı və App konteyneri tam otursun */
+    .ios-wallpaper, #smartyol-app-container {
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        transform: none !important; /* Scale animasiyasını ləğv et */
+        opacity: 1; /* App-in görünməsinə mane olmasın */
+    }
+
+    /* App açılarkən animasiya problemlərini həll etmək üçün */
+    #smartyol-app-container.active {
+        transform: none !important;
+    }
+
+    /* IOS Home ekranını biraz yuxarı çəkirik (Status bar üçün) */
+    .ios-home {
+        padding-top: calc(var(--safe-top) + 20px);
+    }
+    
+    /* App View padding-ləri mobilə uyğunlaşdırırıq */
+    .app-view {
+        padding-top: calc(var(--safe-top) + 10px);
+        padding-bottom: calc(var(--safe-bottom) + 20px);
+    }
+}
