@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <div id="snow-container"></div>
+
     <div class="showcase-grid">
         
         <div class="phone-3d">
@@ -17,10 +19,6 @@
             <div class="p-btn p-power"></div>
 
             <div class="phone-screen">
-                <div style="position: absolute; top: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; color: white; font-weight: 600; font-size: 12px; z-index: 50;">
-                    <span class="js-time">12:00</span>
-                    <span>5G 🔋</span>
-                </div>
 
                 <div class="ios-wallpaper"></div>
                 <div class="ios-home" id="ios-home-screen">
@@ -41,9 +39,7 @@
                     </div>
                 </div>
 
-                <div id="smartyol-app-container"></div>
-
-                    <div id="snow-container"></div>
+                <div id="smartyol-app-container">
     
                     <div id="view-home" class="app-view active">
                         <div id="main-map"></div>
@@ -433,12 +429,13 @@
                             </button>
                         </div>
                     </div>
+                </div>
                     <div class="home-bar-indicator" onclick="Showcase.closeApp()"></div>
             </div>
         </div>
 
         <div class="pitch-content">
-            <span class="pitch-tag">VERSIYA 2.0 • B2B & API</span>
+            <span class="pitch-tag">VERSIYA 1.0 • Without API</span>
             <h1 class="pitch-title">Taksi Bazarının<br><span>Vahid Ekosistemi.</span></h1>
             
             <p class="pitch-desc">
@@ -462,11 +459,23 @@
                     <h4 style="margin:0 0 5px 0;">📊 Big Data</h4>
                     <p style="margin:0; font-size:14px; color:#666;">Bazarın qiymət dinamikası və istifadəçi analitikası.</p>
                 </div>
-            </div>
+                
+                <div class="cta-wrapper">
+                
+                    <button onclick="Showcase.openApp()" class="btn-pitch-main">
+                        Konsepti Sınaqdan Keçir ▶
+                    </button>
 
-            <button onclick="Showcase.openApp()" style="padding: 15px 35px; background: #1A1C1E; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
-                Konsepti Sınaqdan Keçir ▶
-            </button>
+                    <div class="qr-badge">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://turalit.github.io/SmartYol/&color=000000" alt="Scan QR" class="qr-img">
+                        <div class="qr-info">
+                            <div style="font-weight:bold; color:#1A1C1E;">Telefonda Aç</div>
+                            <div style="font-size:11px; color:#888;">IOS & Android</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 
