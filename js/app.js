@@ -12,7 +12,7 @@ const SmartYol = (() => {
         DRIVERS: ["Elçin Quliyev", "Rəşad Əliyev", "Kamran Həsənov", "Orxan Məmmədov", "Samir Vəliyev"],
         PLATES: ["99-LZ-123", "10-MK-888", "77-XV-404", "90-OJ-007", "99-XX-555"]
     };
-    // #region 1.1 UTILITIES (Safe Storage)
+    // #region 1.1 UTILITIES (Safe Storage & Sanitization)
     const safeStorage = {
         getItem: (key) => {
             try { return localStorage.getItem(key); } catch (e) { console.warn('Storage access denied'); return null; }
@@ -21,7 +21,14 @@ const SmartYol = (() => {
             try { localStorage.setItem(key, value); } catch (e) { /* ignore */ }
         }
     };
-    // #endregion    
+
+    // FIX: Restore missing sanitizer
+    const safeHTML = (str) => {
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    };
+    // #endregion  
     // #endregion
 
 
