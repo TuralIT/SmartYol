@@ -12,7 +12,18 @@ const SmartYol = (() => {
         DRIVERS: ["Elçin Quliyev", "Rəşad Əliyev", "Kamran Həsənov", "Orxan Məmmədov", "Samir Vəliyev"],
         PLATES: ["99-LZ-123", "10-MK-888", "77-XV-404", "90-OJ-007", "99-XX-555"]
     };
+    // #region 1.1 UTILITIES (Safe Storage)
+    const safeStorage = {
+        getItem: (key) => {
+            try { return localStorage.getItem(key); } catch (e) { console.warn('Storage access denied'); return null; }
+        },
+        setItem: (key, value) => {
+            try { localStorage.setItem(key, value); } catch (e) { /* ignore */ }
+        }
+    };
+    // #endregion    
     // #endregion
+
 
     // #region 2. STATE
     const state = {
@@ -30,19 +41,19 @@ const SmartYol = (() => {
     // #region 3. INIT
     const init = () => {
         console.log(`🚀 ${CONFIG.APP_NAME} başladılır...`);
+        _enableKeyboardSupport(); // Activate A11y
         
-        // Yaddaşdan temanı oxu
-        const savedTheme = localStorage.getItem('theme');
+    // Yaddaşdan temanı oxu (Safe Storage Update)
+        const savedTheme = safeStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
-            // Ayarlardakı düyməni də "işarələnmiş" (checked) et
             setTimeout(() => {
                 const toggle = document.getElementById('theme-toggle');
                 if(toggle) toggle.checked = true;
             }, 100);
         }
 
-        const savedNewYear = localStorage.getItem('newYearMode');
+        const savedNewYear = safeStorage.getItem('newYearMode');
         if (savedNewYear === 'true') {
             document.body.classList.add('new-year-mode');
             document.getElementById('snow-container').style.display = 'block';
@@ -54,8 +65,7 @@ const SmartYol = (() => {
             }, 100);
         }
 
-        calculatePrices();
-        renderResults();
+        refreshQuotes();
         initMap();
     };
     // #endregion
@@ -89,8 +99,7 @@ const SmartYol = (() => {
         
         setTimeout(() => {
             btnElement.style.opacity = '1';
-            calculatePrices();
-            renderResults();
+            refreshQuotes(); // Centralized update
             goTo('view-results');
         }, 400);
     };
@@ -104,12 +113,12 @@ const SmartYol = (() => {
         el.classList.add('chip-active');
         
         state.currentFilter = type;
-        calculatePrices();
-        renderResults();
+        refreshQuotes(); // Centralized update
     };
 
     const sortRides = () => {
         state.sortAscending = !state.sortAscending;
+        // Mutate copy or sort in place, but ensure render follows
         state.calculatedResults.sort((a, b) => {
             return state.sortAscending 
                 ? a.finalPrice - b.finalPrice 
@@ -121,9 +130,10 @@ const SmartYol = (() => {
 
     // #region 5. XƏRİTƏ MÜHƏRRİKİ (Sadələşdirildi)
     const initMap = () => {
-        const mapContainer = L.DomUtil.get('main-map');
-        if(mapContainer !== null) { 
-            mapContainer._leaflet_id = null; 
+        // FIX: Memory Leak - Properly destroy existing instance
+        if (mapInstance) {
+            mapInstance.remove();
+            mapInstance = null;
         }
 
         mapInstance = L.map('main-map', { 
@@ -168,7 +178,7 @@ const SmartYol = (() => {
     };
 
     const cancelOrder = () => {
-        if(!confirm("Sifarişi ləğv etmək istəyirsiniz?")) return;
+        if(!confirm(I18N.az.cancel_confirm)) return;
 
         // Ekranları geri qaytar
         document.getElementById('view-order').style.display = 'none';
@@ -187,7 +197,7 @@ const SmartYol = (() => {
             mapInstance.setView(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
         }
 
-        setTimeout(() => alert("Sifariş ləğv edildi ❌"), 300);
+        setTimeout(() => alert(I18N.az.cancel_done), 300);
     };
 
     // --- Köməkçi Funksiyalar ---
@@ -205,6 +215,16 @@ const SmartYol = (() => {
         orderView.style.display = 'flex';     
         orderView.classList.add('active');    
         orderView.style.zIndex = '1000'; 
+    };
+
+    const _enableKeyboardSupport = () => {
+        document.body.addEventListener('keydown', (e) => {
+            // Allow triggering "div buttons" with Enter or Space
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
     };
 
     const _fillDriverInfo = (selectedRide) => {
@@ -225,9 +245,13 @@ const SmartYol = (() => {
         return carList[Math.floor(Math.random() * carList.length)];
     };
 
-    const calculatePrices = () => {
-        const rules = CATEGORY_RULES[state.currentFilter];
-        state.calculatedResults = state.providers.map(provider => {
+    // FIX: Decoupled Logic - Pure function for calculations
+    const _getEstimates = (filterType) => {
+        const rules = CATEGORY_RULES[filterType];
+        // Defensive check for missing data
+        if (!rules || !state.providers) return [];
+
+        return state.providers.map(provider => {
             let finalPrice = (provider.basePrice * rules.multiplier);
             finalPrice += (Math.random() * 0.5); 
             
@@ -238,15 +262,20 @@ const SmartYol = (() => {
                 time: Math.floor(Math.random() * 10) + 2
             };
         });
-
-        state.sortAscending = true;
-        state.calculatedResults.sort((a, b) => a.finalPrice - b.finalPrice);
     };
 
-    const safeHTML = (str) => {
-        const temp = document.createElement('div');
-        temp.textContent = str;
-        return temp.innerHTML;
+    // The Single Source of Truth for updates
+    const refreshQuotes = () => {
+        // 1. Calculate
+        const newResults = _getEstimates(state.currentFilter);
+        
+        // 2. Update State (Reset sort on new fetch)
+        state.calculatedResults = newResults;
+        state.sortAscending = true;
+        state.calculatedResults.sort((a, b) => a.finalPrice - b.finalPrice);
+
+        // 3. Render
+        renderResults();
     };
 
     const renderResults = () => {
@@ -330,10 +359,8 @@ const SmartYol = (() => {
         // 2. Hazırkı vəziyyəti yoxla
         const isDark = body.classList.contains('dark-mode');
         
-        // 3. Yaddaşa yaz (LocalStorage)
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        
-        console.log(`Tema dəyişdi: ${isDark ? 'Qaranlıq 🌙' : 'Aydınlıq ☀️'}`);
+        // 3. Yaddaşa yaz (Safe Storage Update)
+        safeStorage.setItem('theme', isDark ? 'dark' : 'light');
     };
 
     // --- NEW YEAR LOGIC ---
@@ -348,13 +375,13 @@ const SmartYol = (() => {
         if (isActive) {
             snowContainer.style.display = 'block';
             _createSnowflakes();
-            alert("Xoşbəxt illər! 🎄🎅");
+            // alert silindi - UX üçün pisdir
         } else {
             snowContainer.style.display = 'none';
-            snowContainer.innerHTML = ''; // Qarı təmizlə ki, RAM dolmasın
+            snowContainer.innerHTML = ''; 
         }
 
-        localStorage.setItem('newYearMode', isActive);
+        safeStorage.setItem('newYearMode', isActive);
     };
 
     // Qar dənələrini yaradan köməkçi funksiya
@@ -433,7 +460,7 @@ const SmartYol = (() => {
         });
 
         // Simulyasiya
-        alert("Fikriniz üçün təşəkkürlər! Səfər tamamlandı. ✅");
+        alert(I18N.az.feedback_thanks);
         
         // Tətbiqi sıfırla və ana səhifəyə qaytar
         window.location.reload(); 

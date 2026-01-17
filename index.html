@@ -24,10 +24,10 @@
                     <div id="main-map"></div>
 
                     <div class="home-top">
-                        <div class="menu-circle" onclick="SmartYol.goTo('view-profile')">☰</div>
+                        <div class="menu-circle" role="button" tabindex="0" aria-label="Profil Menyusu" onclick="SmartYol.goTo('view-profile')">☰</div>
                         <div class="brand-pill">Smart<span style="color:var(--brand-green)">Yol</span></div>
                     </div>
-                    <div class="search-trigger" onclick="SmartYol.goTo('view-search')">
+                    <div class="search-trigger" role="button" tabindex="0" aria-label="Axtarışa başla" onclick="SmartYol.goTo('view-search')">
                         <div style="font-size: 18px; font-weight: bold; color: var(--brand-blue);">Hara gedirsiniz?</div>
                         <div class="fake-input">🔍 Axtarış...</div>
                     </div>
@@ -226,8 +226,8 @@
                     <div class="results-list" id="taxiList">
                         </div>
 
-                    <div class="fab-alert" onclick="SmartYol.toggleModal(true)">
-                        <span>📉</span> Qiymət İzləmə
+                    <div class="fab-alert" role="button" tabindex="0" onclick="SmartYol.toggleModal(true)">
+                        <span aria-hidden="true">📉</span> Qiymət İzləmə
                     </div>
                 </div>
 
@@ -365,9 +365,9 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="js/data.js" defer></script>
+    <script src="js/app.js" defer></script>
 
 </body>
 </html>

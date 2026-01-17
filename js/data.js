@@ -22,3 +22,15 @@ const CATEGORY_RULES = {
         cars: ['E-Class', 'BMW 5', 'Land Cruiser', 'Avalon', 'Passat']
     }
 };
+
+// Localization Dictionary
+const I18N = {
+    az: {
+        searching: "Sürücü axtarılır...",
+        driver_found: "Sürücü gəlir",
+        cancel_confirm: "Sifarişi ləğv etmək istəyirsiniz?",
+        cancel_done: "Sifariş ləğv edildi ❌",
+        feedback_thanks: "Fikriniz üçün təşəkkürlər! Səfər tamamlandı. ✅"
+    }
+    // en: { ... } future support
+};
