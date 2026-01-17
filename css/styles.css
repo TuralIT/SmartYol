@@ -233,7 +233,7 @@ body, html {
 }
 
 .search-trigger { 
-    position: absolute;
+    position: fixed;
     /* DƏYİŞDİ: Aşağıdan məsafə */ 
     bottom: calc(var(--safe-bottom) + 30px); 
     left: 20px; right: 20px; 
