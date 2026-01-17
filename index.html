@@ -9,368 +9,471 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="snow-container"></div>
+    <div class="showcase-grid">
+        
+        <div class="phone-3d">
+            <div class="p-btn p-vol-up"></div>
+            <div class="p-btn p-vol-down"></div>
+            <div class="p-btn p-power"></div>
 
-    <div class="phone-wrapper">
-        <div class="phone-case">
-            <div class="side-btn power"></div>
-            <div class="side-btn vol-up"></div>
-            <div class="side-btn vol-down"></div>
-            <div class="notch"></div>
-            
-            <div class="screen">
-                
-                <div id="view-home" class="app-view active">
-                    <div id="main-map"></div>
-
-                    <div class="home-top">
-                        <div class="menu-circle" role="button" tabindex="0" aria-label="Profil Menyusu" onclick="SmartYol.goTo('view-profile')">☰</div>
-                        <div class="brand-pill">Smart<span style="color:var(--brand-green)">Yol</span></div>
-                    </div>
-                    <div class="search-trigger" role="button" tabindex="0" aria-label="Axtarışa başla" onclick="SmartYol.goTo('view-search')">
-                        <div style="font-size: 18px; font-weight: bold; color: var(--brand-blue);">Hara gedirsiniz?</div>
-                        <div class="fake-input">🔍 Axtarış...</div>
-                    </div>
+            <div class="phone-screen">
+                <div style="position: absolute; top: 0; width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; color: white; font-weight: 600; font-size: 12px; z-index: 50;">
+                    <span class="js-time">12:00</span>
+                    <span>5G 🔋</span>
                 </div>
 
-                <div id="view-profile" class="app-view">
-                    <div class="profile-header">
-                        <button class="btn-icon" style="color:white; position:absolute; top:50px; left:20px;" onclick="SmartYol.goTo('view-home')">←</button>
-                        <div class="user-info" style="margin-top: 20px;">
-                            <div class="avatar">👤</div>
-                            <div>
-                                <div style="font-size: 20px; font-weight: bold;">Nicat M.</div>
-                                <div style="font-size: 12px; opacity: 0.8;">Premium İstifadəçi</div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div style="font-size: 12px; opacity: 0.8;">CƏMİ QƏNAƏT</div>
-                            <div style="font-size: 24px; font-weight: 900;">42.50 ₼</div>
-                        </div>
+                <div class="ios-wallpaper"></div>
+                <div class="ios-home" id="ios-home-screen">
+                    <div style="margin-top: 60px; text-align: center; color: white; margin-bottom: 20px;">
+                        <div id="js-date" style="font-size: 14px; font-weight: bold; color: rgba(255,255,255,0.8);">BAZAR, 29 DEK</div>
+                        <div class="js-time" style="font-size: 60px; font-weight: 200; line-height: 1;">12:00</div>
                     </div>
-                    <div class="menu-list">
-                        <div class="menu-row" onclick="SmartYol.goTo('view-settings')">
-                            <span>⚙️ Ayarlar</span> <span>›</span>
-                        </div>
 
-                        <div class="menu-row" onclick="SmartYol.goTo('view-support')">
-                            <span>💬 Dəstək</span> <span>›</span>
+                    <div class="app-grid">
+                        <div onclick="Showcase.openApp()" style="text-align: center; cursor: pointer;">
+                            <div class="app-icon icon-smartyol">Smart<br>Yol</div>
+                            <span class="app-label">SmartYol</span>
                         </div>
-
-                        <div class="menu-row" onclick="SmartYol.goTo('view-history')">
-                            <span>📜 Tarixçə</span> <span>›</span>
-                        </div>
-
-                        <div class="menu-row" style="color:#e74c3c;" onclick="SmartYol.logout()">
-                            <span>🚪 Çıxış</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-settings" class="app-view">
-                    <div class="header-nav">
-                        <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
-                        <div class="header-title">Ayarlar</div>
-                        <div style="width: 20px;"></div> </div>
-                    <div class="menu-list">
-                        <div style="padding: 15px; font-weight: bold; color: #999; font-size: 12px;">ÜMUMİ</div>
-                        <div class="menu-row">
-                            <span>Dil (Azərbaycan)</span> <span>🇦🇿</span>
-                        </div>
-                        <div class="menu-row">
-                            <span>Valyuta (AZN)</span> <span>₼</span>
-                        </div>
-                        <div style="padding: 15px; font-weight: bold; color: #999; font-size: 12px; margin-top: 10px;">BİLDİRİŞLƏR</div>
-                        <div class="menu-row">
-                            <span>Kampaniyalar</span> 
-                            <input type="checkbox" checked onclick="event.stopPropagation()">
-                        </div>
-                        <div class="menu-row">
-                            <span>Səsli Bildiriş</span> 
-                            <input type="checkbox" checked onclick="event.stopPropagation()">
-                        </div>
-                        <div class="menu-row">
-                            <span>🌙 Gecə Rejimi</span> 
-                            <label class="switch">
-                                <input type="checkbox" id="theme-toggle" onchange="SmartYol.toggleTheme()">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="menu-row">
-                            <span>🎄 Yeni İl Teması</span> 
-                            <label class="switch">
-                                <input type="checkbox" id="newyear-toggle" onchange="SmartYol.toggleNewYear()">
-                            <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-support" class="app-view">
-                    <div class="header-nav">
-                        <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
-                        <div class="header-title">Dəstək Mərkəzi</div>
-                        <div style="width: 20px;"></div>
-                    </div>
-                    <div style="padding: 20px; text-align: center; margin-top: 50px;">
-                        <div style="font-size: 50px;">🎧</div>
-                        <h3 style="color: var(--brand-blue);">Necə kömək edə bilərik?</h3>
-                        <p style="color: #777; font-size: 14px;">Qaynar xəttimiz 24/7 xidmətinizdədir.</p>
                         
-                        <div style="background: white; padding: 20px; border-radius: 20px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                            <div style="font-weight: bold; margin-bottom: 5px;">📞 Çağrı Mərkəzi</div>
-                            <div style="color: var(--brand-green); font-size: 18px; font-weight: 900;">*5555</div>
-                        </div>
-
-                        <div style="background: white; padding: 20px; border-radius: 20px; margin-top: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                            <div style="font-weight: bold; margin-bottom: 5px;">💬 Whatsapp</div>
-                            <div style="color: var(--brand-blue);">+994 50 000 00 00</div>
-                        </div>
+                        <div style="text-align: center;"><div class="app-icon">📸</div><span class="app-label">Fotolar</span></div>
+                        <div style="text-align: center;"><div class="app-icon">🗺️</div><span class="app-label">Xəritə</span></div>
+                        <div style="text-align: center;"><div class="app-icon">🎵</div><span class="app-label">Musiqi</span></div>
                     </div>
                 </div>
 
-                <div id="view-history" class="app-view">
-                    <div class="header-nav">
-                        <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
-                        <div class="header-title">Səfər Tarixçəsi</div>
-                        <div style="width: 20px;"></div>
-                    </div>
-                    <div class="results-list">
-                        <div class="taxi-card">
-                            <div class="logo-box bolt">Bolt</div>
-                            <div>
-                                <div style="font-weight:bold;">Gənclik Mall</div>
-                                <div style="font-size:11px; color:#999;">Dünən, 14:30 • Toyota Prius</div>
-                            </div>
-                            <div class="price-area">
-                                <div style="font-weight: bold;" class="price-val">4.50 ₼</div>
-                                <div style="font-size: 10px; color: var(--brand-green);">Tamamlandı</div>
-                            </div>
-                        </div>
+                <div id="smartyol-app-container"></div>
 
-                        <div class="taxi-card">
-                            <div class="logo-box uber">Uber</div>
-                            <div>
-                                <div style="font-weight:bold;">28 May</div>
-                                <div style="font-size:11px; color:#999;">24 Dek, 09:15 • Hyundai Accent</div>
-                            </div>
-                            <div class="price-area">
-                                <div style="font-weight: bold;" class="price-val">3.20 ₼</div>
-                                <div style="font-size: 10px; color: var(--brand-green);">Tamamlandı</div>
-                            </div>
-                        </div>
+                    <div id="snow-container"></div>
+    
+                    <div id="view-home" class="app-view active">
+                        <div id="main-map"></div>
 
-                        <div class="taxi-card" style="opacity: 0.7;">
-                            <div class="logo-box yango">Yango</div>
-                            <div>
-                                <div style="font-weight:bold;">Dənizkənarı Park</div>
-                                <div style="font-size:11px; color:#999;">20 Dek, 21:00 • Kia Rio</div>
-                            </div>
-                            <div class="price-area">
-                                <div style="font-weight: bold; color: #e74c3c; text-decoration: line-through;">5.00 ₼</div>
-                                <div style="font-size: 10px; color: #e74c3c;">Ləğv edildi</div>
-                            </div>
+                        <div class="home-top">
+                            <div class="menu-circle" role="button" tabindex="0" aria-label="Profil Menyusu" onclick="SmartYol.goTo('view-profile')">☰</div>
+                            <div class="brand-pill">Smart<span style="color:var(--brand-green)">Yol</span></div>
+                        </div>
+                        <div class="search-trigger" role="button" tabindex="0" aria-label="Axtarışa başla" onclick="SmartYol.goTo('view-search')">
+                            <div style="font-size: 18px; font-weight: bold; color: var(--brand-blue);">Hara gedirsiniz?</div>
+                            <div class="fake-input">🔍 Axtarış...</div>
                         </div>
                     </div>
-                </div>
 
-                <div id="view-search" class="app-view">
-                    <div class="search-container">
-                        <div class="input-group">
-                            <button class="btn-icon" style="margin-right: 15px;" onclick="SmartYol.goTo('view-home')">←</button>
-                            <span style="font-weight: bold; color:var(--brand-blue);">Marşrut</span>
-                        </div>
-                        <div class="input-group">
-                            <div class="dot dot-blue"></div>
-                            <input type="text" class="clean-input" value="Gənclik Mall" readonly>
-                        </div>
-                        <div class="input-group">
-                            <div class="dot dot-green"></div>
-                            <input type="text" class="clean-input" placeholder="Hara?" id="destInput" autofocus>
-                        </div>
-                    </div>
-                    <div class="recent-list">
-                        <div style="font-size: 12px; font-weight: bold; color:#ccc; margin-bottom:10px;">POPULYAR</div>
-                        <div class="recent-item" onclick="SmartYol.simulateSearch('airport', this)">
-                            <div class="icon-box">✈️</div>
-                            <div>
-                                <div style="font-weight: 600;">Heydər Əliyev Limanı</div>
-                                <div style="font-size: 12px; color: #999;">Aeroport şossesi</div>
-                            </div>
-                        </div>
-                        <div class="recent-item" onclick="SmartYol.simulateSearch('28mall', this)">
-                            <div class="icon-box">🏢</div>
-                            <div>
-                                <div style="font-weight: 600;">28 Mall</div>
-                                <div style="font-size: 12px; color: #999;">Azadlıq pr.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-results" class="app-view">
-                    <div class="sticky-header">
-                        <div class="header-nav">
-                            <button class="btn-icon" onclick="SmartYol.goTo('view-search')">←</button>
-                            <div style="text-align: center;">
-                                <div class="header-title" id="routeTitle">Gənclik → ...</div>
-                            </div>
-                            <div class="btn-icon" style="font-size: 18px;" onclick="SmartYol.sortRides()">⇅</div>
-                        </div>
-
-                        <div class="filters">
-                            <div class="filter-chip chip-active" onclick="SmartYol.toggleFilter(this, 'economy')">Ekonom</div>
-                            <div class="filter-chip chip-inactive" onclick="SmartYol.toggleFilter(this, 'comfort')">Komfort</div>
-                            <div class="filter-chip chip-inactive" onclick="SmartYol.toggleFilter(this, 'business')">Biznes</div>
-                        </div>                        
-                    </div>
-
-
-                    <div class="results-list" id="taxiList">
-                        </div>
-
-                    <div class="fab-alert" role="button" tabindex="0" onclick="SmartYol.toggleModal(true)">
-                        <span aria-hidden="true">📉</span> Qiymət İzləmə
-                    </div>
-                </div>
-
-                <div id="view-order" class="app-view" style="background: transparent; justify-content: flex-end;">
-                    
-                    <div class="order-panel">
-                        
-                        <div id="state-searching" style="text-align: center; padding: 40px 0;">
-                            <div class="loader"></div>
-                            <h3 style="color: var(--brand-blue); margin-top: 20px;">Sürücü axtarılır...</h3>
-                            <p style="color: #999;">Sizə ən yaxın sürücülərlə əlaqə yaradılır</p>
-                            <button class="btn-outline" style="margin-top: 20px; border-color: #e74c3c; color: #e74c3c;" onclick="SmartYol.cancelOrder()">
-                                ✕ Ləğv et
-                            </button>
-                        </div>
-
-                        <div id="state-found" style="display: none;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                                <h3 style="margin:0; color:var(--brand-blue);">Sürücü gəlir (3 dəq)</h3>
-                                <div style="background: #eef; padding: 5px 10px; border-radius: 10px; font-weight: bold; color: var(--brand-blue);">
-                                    <span id="driver-plate">99-XX-000</span>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
-                                <div class="avatar" style="background: var(--bg-grey); color: #555;">👨🏻‍✈️</div>
+                    <div id="view-profile" class="app-view">
+                        <div class="profile-header">
+                            <button class="btn-icon" style="color:white; position:absolute; top:50px; left:20px;" onclick="SmartYol.goTo('view-home')">←</button>
+                            <div class="user-info" style="margin-top: 20px;">
+                                <div class="avatar">👤</div>
                                 <div>
-                                    <div style="font-weight: bold; font-size: 18px;" id="driver-name">Əli Məmmədov</div>
-                                    <div style="color: gold; font-size: 14px;">★ 4.9 • <span style="color:#999;" id="driver-car">Toyota Prius</span></div>
+                                    <div style="font-size: 20px; font-weight: bold;">Nicat M.</div>
+                                    <div style="font-size: 12px; opacity: 0.8;">Premium İstifadəçi</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 12px; opacity: 0.8;">CƏMİ QƏNAƏT</div>
+                                <div style="font-size: 24px; font-weight: 900;">42.50 ₼</div>
+                            </div>
+                        </div>
+                        <div class="menu-list">
+                            <div class="menu-row" onclick="SmartYol.goTo('view-settings')">
+                                <span>⚙️ Ayarlar</span> <span>›</span>
+                            </div>
+
+                            <div class="menu-row" onclick="SmartYol.goTo('view-support')">
+                                <span>💬 Dəstək</span> <span>›</span>
+                            </div>
+
+                            <div class="menu-row" onclick="SmartYol.goTo('view-history')">
+                                <span>📜 Tarixçə</span> <span>›</span>
+                            </div>
+
+                            <div class="menu-row" style="color:#e74c3c;" onclick="SmartYol.logout()">
+                                <span>🚪 Çıxış</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-settings" class="app-view">
+                        <div class="header-nav">
+                            <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
+                            <div class="header-title">Ayarlar</div>
+                            <div style="width: 20px;"></div> </div>
+                        <div class="menu-list">
+                            <div style="padding: 15px; font-weight: bold; color: #999; font-size: 12px;">ÜMUMİ</div>
+                            <div class="menu-row">
+                                <span>Dil (Azərbaycan)</span> <span>🇦🇿</span>
+                            </div>
+                            <div class="menu-row">
+                                <span>Valyuta (AZN)</span> <span>₼</span>
+                            </div>
+                            <div style="padding: 15px; font-weight: bold; color: #999; font-size: 12px; margin-top: 10px;">BİLDİRİŞLƏR</div>
+                            <div class="menu-row">
+                                <span>Kampaniyalar</span> 
+                                <input type="checkbox" checked onclick="event.stopPropagation()">
+                            </div>
+                            <div class="menu-row">
+                                <span>Səsli Bildiriş</span> 
+                                <input type="checkbox" checked onclick="event.stopPropagation()">
+                            </div>
+                            <div class="menu-row">
+                                <span>🌙 Gecə Rejimi</span> 
+                                <label class="switch">
+                                    <input type="checkbox" id="theme-toggle" onchange="SmartYol.toggleTheme()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="menu-row">
+                                <span>🎄 Yeni İl Teması</span> 
+                                <label class="switch">
+                                    <input type="checkbox" id="newyear-toggle" onchange="SmartYol.toggleNewYear()">
+                                <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-support" class="app-view">
+                        <div class="header-nav">
+                            <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
+                            <div class="header-title">Dəstək Mərkəzi</div>
+                            <div style="width: 20px;"></div>
+                        </div>
+                        <div style="padding: 20px; text-align: center; margin-top: 50px;">
+                            <div style="font-size: 50px;">🎧</div>
+                            <h3 style="color: var(--brand-blue);">Necə kömək edə bilərik?</h3>
+                            <p style="color: #777; font-size: 14px;">Qaynar xəttimiz 24/7 xidmətinizdədir.</p>
+                            
+                            <div style="background: white; padding: 20px; border-radius: 20px; margin-top: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                                <div style="font-weight: bold; margin-bottom: 5px;">📞 Çağrı Mərkəzi</div>
+                                <div style="color: var(--brand-green); font-size: 18px; font-weight: 900;">*5555</div>
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 20px; margin-top: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                                <div style="font-weight: bold; margin-bottom: 5px;">💬 Whatsapp</div>
+                                <div style="color: var(--brand-blue);">+994 50 000 00 00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-history" class="app-view">
+                        <div class="header-nav">
+                            <button class="btn-icon" onclick="SmartYol.goTo('view-profile')">←</button>
+                            <div class="header-title">Səfər Tarixçəsi</div>
+                            <div style="width: 20px;"></div>
+                        </div>
+                        
+                        <div class="results-list" style="padding-top: 10px;">
+                            
+                            <div class="taxi-card">
+                                <div class="logo-box bolt">Bolt</div>
+                                <div style="flex: 1; padding-right: 10px;">
+                                    <div style="font-weight:bold; font-size: 15px; margin-bottom: 5px;">Gənclik Mall → 28 May</div>
+                                    
+                                    <div style="font-size: 13px; font-weight: 600; color: var(--text-dark);">
+                                        Elvin Məmmədov
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-light); margin-top: 2px;">
+                                        Toyota Prius • <span style="font-family: monospace; letter-spacing: 1px;">050 *** ** 45</span>
+                                    </div>
+                                    <div style="font-size: 10px; color: #bbb; margin-top: 5px;">Dünən, 14:30</div>
+                                </div>
+                                
+                                <div class="price-area">
+                                    <div style="font-weight: bold; font-size: 16px;" class="price-val">4.50 ₼</div>
+                                    <div style="font-size: 10px; color: var(--brand-green); margin-top: 2px;">Tamamlandı</div>
                                 </div>
                             </div>
 
-                            <div style="display: flex; gap: 10px;">
-                                <button class="btn-green" style="flex: 1; padding: 15px;" onclick="SmartYol.makeCall()">📞 Zəng et</button>
-                                <button class="btn-outline" style="flex: 1; padding: 15px;" onclick="SmartYol.cancelOrder()">Ləğv et</button>
-                                <button class="btn-green" style="background: #2c3e50; border: none; padding: 15px;" onclick="SmartYol.finishRide()">
-                                    🏁 Səfəri Bitir
+                            <div class="taxi-card">
+                                <div class="logo-box uber">Uber</div>
+                                <div style="flex: 1; padding-right: 10px;">
+                                    <div style="font-weight:bold; font-size: 15px; margin-bottom: 5px;">28 May → Gənclik Mall</div>
+                                    
+                                    <div style="font-size: 13px; font-weight: 600; color: var(--text-dark);">
+                                        Rəşad Quliyev
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-light); margin-top: 2px;">
+                                        Hyundai Accent • <span style="font-family: monospace; letter-spacing: 1px;">055 *** ** 89</span>
+                                    </div>
+                                    <div style="font-size: 10px; color: #bbb; margin-top: 5px;">24 Dek, 09:15</div>
+                                </div>
+                                
+                                <div class="price-area">
+                                    <div style="font-weight: bold; font-size: 16px;" class="price-val">3.20 ₼</div>
+                                    <div style="font-size: 10px; color: var(--brand-green); margin-top: 2px;">Tamamlandı</div>
+                                </div>
+                            </div>
+
+                            <div class="taxi-card" style="opacity: 0.7;">
+                                <div class="logo-box yango">Yango</div>
+                                <div style="flex: 1; padding-right: 10px;">
+                                    <div style="font-weight:bold; font-size: 15px; margin-bottom: 5px;">Dənizkənarı Park → Gənclik Mall</div>
+                                    
+                                    <div style="font-size: 13px; font-weight: 600; color: var(--text-dark);">
+                                        Kamran Əliyev
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-light); margin-top: 2px;">
+                                        Kia Rio • <span style="font-family: monospace; letter-spacing: 1px;">070 *** ** 12</span>
+                                    </div>
+                                    <div style="font-size: 10px; color: #bbb; margin-top: 5px;">20 Dek, 21:00</div>
+                                </div>
+                                
+                                <div class="price-area">
+                                    <div style="font-weight: bold; color: #e74c3c; text-decoration: line-through;">5.00 ₼</div>
+                                    <div style="font-size: 10px; color: #e74c3c; margin-top: 2px;">Ləğv edildi</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="view-search" class="app-view">
+                        
+                        <div class="search-container">
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                                <button class="btn-icon" style="margin-right: 15px; background: #f0f2f5; width: 40px; height: 40px;" onclick="SmartYol.goTo('view-home')">←</button>
+                                <span style="font-weight: 700; font-size: 18px; color:var(--text-dark);">Marşrut planla</span>
+                            </div>
+
+                            <div class="route-box">
+                                
+                                <div class="route-indicators">
+                                    <div class="dot dot-blue"></div>
+                                    <div class="line-connector"></div> <div class="dot dot-square"></div> </div>
+
+                                <div class="route-inputs">
+                                    <input type="text" class="clean-input soft-input" value="Gənclik Mall" readonly>
+                                    <div style="height: 10px;"></div> <input type="text" class="clean-input soft-input" placeholder="Hara gedirsiniz?" id="destInput" autofocus>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="recent-list">
+                            <div style="font-size: 13px; font-weight: 700; color:#bbb; margin: 10px 0 15px 5px; letter-spacing: 1px;">POPULYAR</div>
+                            
+                            <div class="recent-card" onclick="SmartYol.simulateSearch('airport', this)">
+                                <div class="icon-circle">✈️</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark);">Heydər Əliyev Limanı</div>
+                                    <div style="font-size: 12px; color: #999;">Aeroport şossesi</div>
+                                </div>
+                            </div>
+
+                            <div class="recent-card" onclick="SmartYol.simulateSearch('28mall', this)">
+                                <div class="icon-circle">🏢</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark);">28 Mall</div>
+                                    <div style="font-size: 12px; color: #999;">Azadlıq prospekti</div>
+                                </div>
+                            </div>
+                            
+                            <div class="recent-card">
+                                <div class="icon-circle">🏠</div>
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark);">Ev</div>
+                                    <div style="font-size: 12px; color: #999;">Yadda saxlanılıb</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="view-results" class="app-view">
+                        <div class="sticky-header">
+                            <div class="header-nav">
+                                <button class="btn-icon" onclick="SmartYol.goTo('view-search')">←</button>
+                                <div style="text-align: center;">
+                                    <div class="header-title" id="routeTitle">Gənclik → ...</div>
+                                </div>
+                                <div class="btn-icon" style="font-size: 18px;" onclick="SmartYol.sortRides()">⇅</div>
+                            </div>
+
+                            <div class="filters">
+                                <div class="filter-chip chip-active" onclick="SmartYol.toggleFilter(this, 'economy')">Ekonom</div>
+                                <div class="filter-chip chip-inactive" onclick="SmartYol.toggleFilter(this, 'comfort')">Komfort</div>
+                                <div class="filter-chip chip-inactive" onclick="SmartYol.toggleFilter(this, 'business')">Biznes</div>
+                            </div>                        
+                        </div>
+
+
+                        <div class="results-list" id="taxiList">
+                            </div>
+
+                        <div class="fab-alert" role="button" tabindex="0" onclick="SmartYol.toggleModal(true)">
+                            <span aria-hidden="true">📉</span> Qiymət İzləmə
+                        </div>
+                    </div>
+
+                    <div id="view-order" class="app-view" style="background: transparent; justify-content: flex-end;">
+                        
+                        <div class="order-panel">
+                            
+                            <div id="state-searching" style="text-align: center; padding: 40px 0;">
+                                <div class="loader"></div>
+                                <h3 style="color: var(--brand-blue); margin-top: 20px;">Sürücü axtarılır...</h3>
+                                <p style="color: #999;">Sizə ən yaxın sürücülərlə əlaqə yaradılır</p>
+                                <button class="btn-outline" style="margin-top: 20px; border-color: #ffe5e5; color: #ff4d4d; background: #fff5f5; font-weight:bold;" onclick="SmartYol.cancelOrder()">
+                                    ✕ Ləğv et
                                 </button>
                             </div>
-                        </div>
 
-                    </div>
-                </div>
+                            <div id="state-found" style="display: none;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h3 style="margin:0; color:var(--brand-blue);">Sürücü gəlir (3 dəq)</h3>
+                                    <div style="background: #eef; padding: 5px 10px; border-radius: 10px; font-weight: bold; color: var(--brand-blue);">
+                                        <span id="driver-plate">99-XX-000</span>
+                                    </div>
+                                </div>
 
-                <div id="view-call" class="app-view" style="background: rgba(26, 65, 117, 0.95); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; color: white; text-align: center;">
-                    
-                    <div class="call-avatar-container">
-                        <div class="call-pulse"></div>
-                        <div class="call-avatar">👨🏻‍✈️</div>
-                    </div>
+                                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+                                    <div class="avatar" style="background: var(--bg-grey); color: #555;">👨🏻‍✈️</div>
+                                    <div>
+                                        <div style="font-weight: bold; font-size: 18px;" id="driver-name">Əli Məmmədov</div>
+                                        <div style="color: gold; font-size: 14px;">★ 4.9 • <span style="color:#999;" id="driver-car">Toyota Prius</span></div>
+                                    </div>
+                                </div>
 
-                    <h2 id="call-name" style="margin-bottom: 5px; font-size: 24px;">Sürücü</h2>
-                    <p id="call-status" style="opacity: 0.7; margin-top: 0;">Zəng gedir...</p>
-
-                    <div style="position: absolute; bottom: 50px; display: flex; gap: 40px;">
-                        <div class="round-btn" style="background: rgba(255,255,255,0.2);">🎤</div>
-                        
-                        <div class="round-btn" style="background: #e74c3c; transform: scale(1.2);" onclick="SmartYol.endCall()">
-                            📞
-                        </div>
-                        
-                        <div class="round-btn" style="background: rgba(255,255,255,0.2);">🔊</div>
-                    </div>
-
-                </div>
-
-                <div id="view-rating" class="app-view" style="background: white; padding: 30px 20px;">
-                    
-                    <div style="text-align: center; margin-top: 40px;">
-                        <div class="avatar" style="width: 80px; height: 80px; margin: 0 auto; font-size: 40px;">👨🏻‍✈️</div>
-                        <h2 style="color: var(--brand-blue); margin-bottom: 5px;" id="rate-driver-name">Sürücü Adı</h2>
-                        <p style="color: #999;">Səfəriniz necə keçdi?</p>
-                    </div>
-
-                    <div class="star-container" id="star-wrapper">
-                        <span class="star" onclick="SmartYol.selectStar(1)">★</span>
-                        <span class="star" onclick="SmartYol.selectStar(2)">★</span>
-                        <span class="star" onclick="SmartYol.selectStar(3)">★</span>
-                        <span class="star" onclick="SmartYol.selectStar(4)">★</span>
-                        <span class="star" onclick="SmartYol.selectStar(5)">★</span>
-                    </div>
-
-                    <div style="margin-top: 30px;">
-                        <p style="font-weight: bold; font-size: 14px; margin-bottom: 15px;">Nədən narazı qaldınız?</p>
-                        <div class="complaint-grid">
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Kobud davranış</div>
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Təhlükəli sürüş</div>
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Maşın çirkli</div>
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Gecikmə</div>
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Yolu tanımır</div>
-                            <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Artıq ödəniş</div>
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 20px;">
-                        <textarea id="feedback-text" class="clean-input" rows="4" placeholder="Digər qeydləriniz..."></textarea>
-                    </div>
-
-                    <button class="btn-green" style="width: 100%; padding: 15px; margin-top: 30px; font-size: 16px;" onclick="SmartYol.submitFeedback()">
-                        Göndər
-                    </button>
-
-                </div>
-
-                <div class="modal-overlay" id="priceModal">
-                    <div class="modal-body">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                            <h3 style="margin: 0; color: var(--brand-blue);">Proqnoz 📊</h3>
-                            <div style="cursor: pointer; padding:5px;" onclick="SmartYol.toggleModal(false)">✕</div>
-                        </div>
-                        <p style="font-size: 13px; color: #777;">Hazırda qiymətlər normadan yüksəkdir.</p>
-                        
-                        <div class="graph-area">
-                            <div class="bar-col">
-                                <div class="bar" style="height: 80px; background: #FC3F1D; opacity: 0.8;"><span>11.5₼</span></div>
-                                <div class="label">İndi</div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button class="btn-green" style="flex: 1; padding: 15px;" onclick="SmartYol.makeCall()">📞 Zəng et</button>
+                                    <button class="btn-outline" style="flex: 1; padding: 15px;" onclick="SmartYol.cancelOrder()">Ləğv et</button>
+                                    <button class="btn-green" style="background: #2c3e50; border: none; padding: 15px;" onclick="SmartYol.finishRide()">
+                                        🏁 Səfəri Bitir
+                                    </button>
+                                </div>
                             </div>
-                            <div class="bar-col">
-                                <div class="bar" style="height: 50px; background: #FFCC00;"><span>9.2₼</span></div>
-                                <div class="label">+10 dəq</div>
+
+                        </div>
+                    </div>
+
+                    <div id="view-call" class="app-view" style="background: rgba(26, 65, 117, 0.95); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; color: white; text-align: center;">
+                        
+                        <div class="call-avatar-container">
+                            <div class="call-pulse"></div>
+                            <div class="call-avatar">👨🏻‍✈️</div>
+                        </div>
+
+                        <h2 id="call-name" style="margin-bottom: 5px; font-size: 24px;">Sürücü</h2>
+                        <p id="call-status" style="opacity: 0.7; margin-top: 0;">Zəng gedir...</p>
+
+                        <div style="position: absolute; bottom: 50px; display: flex; gap: 40px;">
+                            <div class="round-btn" style="background: rgba(255,255,255,0.2);">🎤</div>
+                            
+                            <div class="round-btn" style="background: #e74c3c; transform: scale(1.2);" onclick="SmartYol.endCall()">
+                                📞
                             </div>
-                            <div class="bar-col">
-                                <div class="bar" style="height: 30px; background: #8CC63F;"><span>7.8₼</span></div>
-                                <div class="label">+20 dəq</div>
+                            
+                            <div class="round-btn" style="background: rgba(255,255,255,0.2);">🔊</div>
+                        </div>
+
+                    </div>
+
+                    <div id="view-rating" class="app-view" style="background: white; padding: 30px 20px;">
+                        
+                        <div style="text-align: center; margin-top: 40px;">
+                            <div class="avatar" style="width: 80px; height: 80px; margin: 0 auto; font-size: 40px;">👨🏻‍✈️</div>
+                            <h2 style="color: var(--brand-blue); margin-bottom: 5px;" id="rate-driver-name">Sürücü Adı</h2>
+                            <p style="color: #999;">Səfəriniz necə keçdi?</p>
+                        </div>
+
+                        <div class="star-container" id="star-wrapper">
+                            <span class="star" onclick="SmartYol.selectStar(1)">★</span>
+                            <span class="star" onclick="SmartYol.selectStar(2)">★</span>
+                            <span class="star" onclick="SmartYol.selectStar(3)">★</span>
+                            <span class="star" onclick="SmartYol.selectStar(4)">★</span>
+                            <span class="star" onclick="SmartYol.selectStar(5)">★</span>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <p style="font-weight: bold; font-size: 14px; margin-bottom: 15px;">Nədən narazı qaldınız?</p>
+                            <div class="complaint-grid">
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Kobud davranış</div>
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Təhlükəli sürüş</div>
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Maşın çirkli</div>
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Gecikmə</div>
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Yolu tanımır</div>
+                                <div class="complaint-tag" onclick="SmartYol.toggleComplaint(this)">Artıq ödəniş</div>
                             </div>
                         </div>
 
-                        <button style="width: 100%; padding: 15px; background: var(--brand-blue); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;" onclick="SmartYol.setAlert()">
-                            Qiymət düşəndə xəbər ver
+                        <div style="margin-top: 20px;">
+                            <textarea id="feedback-text" class="clean-input" rows="4" placeholder="Digər qeydləriniz..."></textarea>
+                        </div>
+
+                        <button class="btn-green" style="width: 100%; padding: 15px; margin-top: 30px; font-size: 16px;" onclick="SmartYol.submitFeedback()">
+                            Göndər
                         </button>
-                    </div>
-                </div>
 
+                    </div>
+
+                    <div class="modal-overlay" id="priceModal">
+                        <div class="modal-body">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                                <h3 style="margin: 0; color: var(--brand-blue);">Proqnoz 📊</h3>
+                                <div style="cursor: pointer; padding:5px;" onclick="SmartYol.toggleModal(false)">✕</div>
+                            </div>
+                            <p style="font-size: 13px; color: #777;">Hazırda qiymətlər normadan yüksəkdir.</p>
+                            
+                            <div class="graph-area">
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 80px; background: #FC3F1D; opacity: 0.8;"><span>11.5₼</span></div>
+                                    <div class="label">İndi</div>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 50px; background: #FFCC00;"><span>9.2₼</span></div>
+                                    <div class="label">+10 dəq</div>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar" style="height: 30px; background: #8CC63F;"><span>7.8₼</span></div>
+                                    <div class="label">+20 dəq</div>
+                                </div>
+                            </div>
+
+                            <button style="width: 100%; padding: 15px; background: var(--brand-blue); color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer;" onclick="SmartYol.setAlert()">
+                                Qiymət düşəndə xəbər ver
+                            </button>
+                        </div>
+                    </div>
+                    <div class="home-bar-indicator" onclick="Showcase.closeApp()"></div>
             </div>
+        </div>
+
+        <div class="pitch-content">
+            <span class="pitch-tag">VERSIYA 2.0 • B2B & API</span>
+            <h1 class="pitch-title">Taksi Bazarının<br><span>Vahid Ekosistemi.</span></h1>
+            
+            <p class="pitch-desc">
+                SmartYol sadəcə qiymət müqayisəsi deyil. Biz taksi şirkətləri üçün <strong>Sıfır Marketinq Xərci</strong> ilə hazır müştəri axını, korporativ şirkətlər üçün isə <strong>Vahid İdarəetmə Paneli</strong> təqdim edirik.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                <div>
+                    <h4 style="margin:0 0 5px 0;">🚀 High-Quality Leads</h4>
+                    <p style="margin:0; font-size:14px; color:#666;">Reklam xərci olmadan birbaşa real sifarişçi yönləndiririk.</p>
+                </div>
+                <div>
+                    <h4 style="margin:0 0 5px 0;">💼 B2B Həllər</h4>
+                    <p style="margin:0; font-size:14px; color:#666;">Şirkətlər üçün vahid faktura və hesabatlılıq.</p>
+                </div>
+                <div>
+                    <h4 style="margin:0 0 5px 0;">🔗 API Gateway</h4>
+                    <p style="margin:0; font-size:14px; color:#666;">Real-time qiymət və maşın izləmə (Websocket).</p>
+                </div>
+                <div>
+                    <h4 style="margin:0 0 5px 0;">📊 Big Data</h4>
+                    <p style="margin:0; font-size:14px; color:#666;">Bazarın qiymət dinamikası və istifadəçi analitikası.</p>
+                </div>
+            </div>
+
+            <button onclick="Showcase.openApp()" style="padding: 15px 35px; background: #1A1C1E; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                Konsepti Sınaqdan Keçir ▶
+            </button>
         </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
     <script src="js/data.js" defer></script>
     <script src="js/app.js" defer></script>
+    <script src="js/showcase.js"></script>
 
 </body>
 </html>

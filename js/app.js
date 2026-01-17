@@ -78,22 +78,58 @@ const SmartYol = (() => {
     // #endregion
 
     // #region 4. NAVİQASİYA
-    const goTo = (viewId) => {
+    const goTo = (viewId, direction = 'forward') => {
+        const currentEl = document.querySelector('.app-view.active');
+        const nextEl = document.getElementById(viewId);
+
+        if (!nextEl) return;
+
+        // Digər bütün səhifələri gizlət (performans üçün)
         document.querySelectorAll('.app-view').forEach(el => {
-            el.classList.remove('active');
-            el.style.display = 'none';
+            if (el !== currentEl && el !== nextEl) {
+                el.classList.remove('active', 'slide-in-right', 'slide-out-right');
+                el.style.display = 'none';
+            }
         });
+
+        nextEl.style.display = 'flex';
         
-        const target = document.getElementById(viewId);
-        if (target) {
-            target.style.display = 'flex';
-            void target.offsetWidth; 
-            target.classList.add('active');
+        if (direction === 'forward') {
+            // İrəli gedirsə: Yeni səhifə sağdan gəlir
+            nextEl.classList.add('slide-in-right', 'active');
+        } else {
+            // Geri qayıdırsa: Cari səhifə sağa sürüşüb gedir
+            if(currentEl) currentEl.classList.add('slide-out-right');
+            nextEl.classList.add('active'); 
         }
 
-        if(viewId === 'view-search') {
-            setTimeout(() => document.getElementById('destInput').focus(), 300);
-        }
+        // Animasiya bitdikdən sonra (400ms) təmizlik
+        setTimeout(() => {
+            if (direction === 'forward') {
+                if(currentEl) {
+                    currentEl.style.display = 'none';
+                    currentEl.classList.remove('active');
+                }
+            } else {
+                if(currentEl) {
+                    currentEl.style.display = 'none';
+                    currentEl.classList.remove('slide-out-right', 'active');
+                }
+            }
+            
+            // Xəritə ölçüsünü düzəlt (Home-a qayıdanda)
+            if (viewId === 'view-home' && mapInstance) {
+                mapInstance.invalidateSize();
+            }
+            
+            // Axtarışdırsa inputa fokuslan
+            if(viewId === 'view-search') {
+                const input = document.getElementById('destInput');
+                if(input) input.focus();
+            }
+        }, 400);
+
+        state.currentView = viewId;
     };
 
     const simulateSearch = (type) => {
@@ -289,26 +325,36 @@ const SmartYol = (() => {
         const container = document.getElementById('taxiList');
         const minPrice = Math.min(...state.calculatedResults.map(d => d.finalPrice));
 
+        // HTML-i yaradın
         const html = state.calculatedResults.map((ride, index) => {
             const isBest = ride.finalPrice <= minPrice;
             const borderClass = isBest ? 'best-border' : '';
-            const badge = isBest ? '<div style="position:absolute; top:-10px; right:15px; background:#8CC63F; color:white; font-size:10px; padding:3px 8px; border-radius:10px;">ƏN UCUZ</div>' : '';
+            
+            // Ən ucuz olanda "BEST" badge-i daha soft olsun
+            const badge = isBest ? 
+                `<div style="position:absolute; top:-12px; right:20px; background:#00D26A; color:white; font-size:10px; font-weight:700; padding:4px 12px; border-radius:12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index:5;">ƏN UCUZ</div>` 
+                : '';
+            
             const btnClass = isBest ? 'btn-green' : 'btn-outline';
 
+            // YENİLİK: Animation-delay əlavə edirik
+            // Hər kart özündən əvvəlkindən 0.1s sonra gələcək
+            const delayStyle = `animation-delay: ${index * 0.1}s`;
+
             return `
-            <div class="taxi-card ${borderClass}">
+            <div class="taxi-card ${borderClass}" style="${delayStyle}">
                 ${badge}
                 <div class="logo-box ${ride.class}">${safeHTML(ride.name)}</div>
-                <div>
-                    <div style="font-weight:bold;">${safeHTML(ride.name)}</div>
-                    <div style="font-size:12px; color:var(--text-light); margin-top:3px;">
-                        <span style="font-weight:600;">${safeHTML(ride.displayCar)}</span> 
-                        • ${ride.time} dəq
+                <div style="flex: 1; padding-right: 10px;">
+                    <div style="font-weight:700; font-size: 15px;">${safeHTML(ride.name)}</div>
+                    <div style="font-size:12px; color:var(--text-light); margin-top:4px; display:flex; align-items:center; gap:5px;">
+                        <span style="background:var(--bg-grey); padding:2px 6px; border-radius:6px; font-weight:600;">${safeHTML(ride.displayCar)}</span> 
+                        <span>• ${ride.time} dəq</span>
                     </div>
                 </div>
                 <div class="price-area">
-                    <div class="price-val">${ride.finalPrice.toFixed(2)} ₼</div>
-                    <button class="btn-sm ${btnClass}" onclick="SmartYol.startOrder(${index})">Sifariş</button>
+                    <div class="price-val" style="font-size: 20px;">${ride.finalPrice.toFixed(2)} ₼</div>
+                    <button class="btn-sm ${btnClass}" style="margin-top:8px; width:100%; border-radius:10px;" onclick="SmartYol.startOrder(${index})">Seç</button>
                 </div>
             </div>`;
         }).join('');

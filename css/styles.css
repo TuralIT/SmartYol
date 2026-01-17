@@ -1,5 +1,30 @@
-/* --- RESET & BASICS --- */
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* --- RESET & BASICS (Native App Feel) --- */
+* { 
+    box-sizing: border-box; 
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Bütün elementlərdə mətn seçimini və kursoru söndürürük */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Edge */
+    user-select: none;         /* Standart */
+    
+    /* Mətnin üstünə gələndə "I" (yazı) işarəsi çıxmasın, adi ox olsun */
+    cursor: default; 
+}
+
+/* Yalnız yazı yazıla bilən inputlarda kursoru və seçimi açırıq */
+input:not([readonly]), 
+textarea:not([readonly]) {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    cursor: text !important;
+}
+
+/* Düymə və linklərdə əl işarəsi (pointer) görünsün */
+button, .btn-icon, .card, .recent-item, .filter-chip, .taxi-card, .fab-alert, .menu-row, .order-panel, .star, .complaint-tag {
+    cursor: pointer !important;
+}
 
 body {
     background-color: var(--bg-grey);
@@ -29,6 +54,8 @@ body {
     /* YENİ DƏYİŞƏNLƏR (Telefonun kəsikləri üçün) */
     --safe-top: env(safe-area-inset-top, 20px);       /* Yuxarı (Notch) */
     --safe-bottom: env(safe-area-inset-bottom, 20px); /* Aşağı (Home Bar) */
+    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08); /* Çox yumşaq, yayılmış kölgə */
+    --shadow-hover: 0 15px 45px -5px rgba(0,0,0,0.12); /* Hover üçün */
 }
 
 /* Ekranı sabitləmək və sürüşmənin qarşısını almaq */
@@ -40,129 +67,116 @@ body, html {
 }
 
 /* ==========================================================================
-                            PHONE CHASSIS (Desktop Mode)
+                            PREMIUM PHONE CHASSIS (Fixed Ratio Fix)
    ========================================================================== */
-.phone-wrapper {
-    position: relative;
-    transform: scale(0.95);
+.phone-wrapper { 
+    position: relative; 
+    width: 100%;
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: #1e1e1e; /* Təqdimat üçün tünd fon */
+    overflow: hidden;
+}
+
+.phone-case { 
+    /* Sabit Ölçülər (iPhone 14 Pro Max nisbəti) */
+    width: 430px; 
+    height: 932px; 
+    flex-shrink: 0; /* Sıxılmasının qarşısını alırıq */
+
+    background: black; 
+    border-radius: 55px; 
+    padding: 12px; 
+    position: relative; 
+    z-index: 1;
+    
+    /* 3D Kölgə */
+    box-shadow: 
+        0 0 0 4px #333,             
+        0 0 0 8px #1a1a1a,          
+        0 30px 60px rgba(0,0,0,0.8); 
+
+    /* AVTOMATİK MİQYASLAMA (Zoom Out) */
+    /* Bu kod telefonun ekrana sığması üçün onu kiçildir */
+    transform: scale(0.9); 
+    transform-origin: center center;
     transition: transform 0.3s ease;
 }
 
-.phone-case {
-    width: 375px;
-    height: 812px;
-    background: #121212;
-    border-radius: 50px;
-    padding: 15px;
-    box-shadow: 0 50px 100px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.1);
-    position: relative;
-    z-index: 1;
+/* Noutbuklar üçün (Ekran hündürlüyü azdursa kiçilt) */
+@media (max-height: 950px) {
+    .phone-case { transform: scale(0.8); }
 }
 
-/* Buttons on side of phone */
-.side-btn { position: absolute; background: #222; border-radius: 5px; right: -5px; }
-.power { top: 200px; width: 8px; height: 50px; }
-.vol-up { top: 100px; left: -5px; width: 8px; height: 40px; }
-.vol-down { top: 150px; left: -5px; width: 8px; height: 40px; }
-
-.screen {
-    width: 100%;
-    height: 100%;
-    background: var(--bg-grey);
-    border-radius: 35px;
-    overflow: hidden;
-    position: relative;
+@media (max-height: 800px) {
+    .phone-case { transform: scale(0.7); }
 }
 
-/* Notch */
-.notch {
-    width: 150px; height: 28px; background: #121212;
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
-    z-index: 999;
+/* Yan Düymələr */
+.side-btn { position: absolute; background: #222; border-radius: 4px; }
+.power { top: 200px; right: -12px; width: 6px; height: 60px; }
+.vol-up { top: 100px; left: -12px; width: 6px; height: 40px; }
+.vol-down { top: 150px; left: -12px; width: 6px; height: 40px; }
+
+.screen { 
+    width: 100%; 
+    height: 100%; 
+    background: var(--bg-grey); 
+    border-radius: 44px; /* Ekran küncləri */
+    overflow: hidden; 
+    position: relative; 
 }
 
-/* --- REAL MOBILE ADAPTATION (Auto-Unwrap) --- */
-/* Trigger: Any screen smaller than 768px (Phones & Small Tablets) */
+/* --- REAL MOBILE ADAPTATION (Telefonda Çərçivəni Sil) --- */
 @media (max-width: 768px) {
-    
-    /* 1. Reset the Body (Remove Centering) */
-    body { 
-        background-color: var(--bg-grey); 
-        display: block; /* Disables flex centering */
-        width: 100%;
-        height: 100%;
-        overflow: hidden; /* Prevents double scrolling */
+    body { background-color: var(--bg-grey); display: block; }
+    .phone-wrapper { height: 100%; background: transparent; display: block; }
+    .phone-case { 
+        width: 100%; height: 100%; 
+        transform: none !important; /* Zoom-u ləğv et */
+        border-radius: 0; padding: 0; border: none; box-shadow: none;
     }
-
-    /* 2. Strip the Wrapper (Make it invisible) */
-    .phone-wrapper, .phone-case { 
-        width: 100%; 
-        height: 100%; 
-        border-radius: 0; 
-        background: transparent; 
-        box-shadow: none; 
-        padding: 0; 
-        margin: 0;
-        transform: none !important; /* Force cancel scaling */
-        border: none;
-    }
-
-    /* 3. Expand the Screen to Full Viewport */
-    .screen { 
-        border-radius: 0; 
-        width: 100%; 
-        height: 100%;
-    }
-
-    /* 4. Hide Desktop Decorations */
-    .side-btn, .notch { 
-        display: none !important; 
-    }
-    
-    /* 5. Fix White Bars (Safe Area Expansion) */
-    .app-view {
-        /* Ensure views stretch to fill safe areas */
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-    }
+    .screen { border-radius: 0; }
+    .side-btn, .notch { display: none !important; }
+    .app-view { min-height: 100vh; min-height: -webkit-fill-available; }
 }
 
 /* ==========================================================================
                                 SCREEN MANAGEMENT
    ========================================================================== */
+/* --- VIEW ANIMATIONS (Sürüşmə Effekti) --- */
 .app-view {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    overflow-y: auto;
-    display: none;
-    flex-direction: column;
-
-/* DƏYİŞDİ: Padding-i safe-area ilə hesablayırıq */
-    padding-top: 0; 
-    padding-bottom: calc(var(--safe-bottom) + 80px); /* Aşağıdan daha çox yer veririk */
-
-    /* YENİ: Bu sətr imkan verir ki, boş yerə basanda arxadakı xəritəyə toxuna bilək */
-    pointer-events: none;
-    -webkit-overflow-scrolling: touch; /* iPhone-da sürüşdürməni yumşaltmaq */
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-grey);
+    display: none; flex-direction: column;
+    
+    /* Padding Safe Area */
+    padding-top: calc(var(--safe-top) + 20px); 
+    padding-bottom: calc(var(--safe-bottom) + 80px); 
+    
+    overflow-y: auto; overflow-x: hidden;
+    pointer-events: none; /* Aktiv olmayanda toxunuşu bloklayır */
+    
+    /* Animasiya Təməli */
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s;
+    z-index: 10;
 }
 
-.app-view > * {
-    pointer-events: auto;
-}
+.app-view > * { pointer-events: auto; }
 
-/* Siyahı və digər view-lar üçün pointer-events aktiv olmalıdır */
-#view-home, #view-search, #view-results, #view-profile, #view-settings, #view-support, #view-history {
-    pointer-events: auto;
-}
+.app-view.active { display: flex; transform: translateX(0); opacity: 1; }
 
-.app-view.active {
-    display: flex;
-    animation: fadeIn 0.3s ease;
-}
+/* Animasiya Klassları - JS bunları işə salacaq */
+.slide-in-right { animation: slideInRight 0.4s forwards; }
+.slide-out-right { animation: slideOutRight 0.4s forwards; }
 
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes slideOutRight { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+/* Scrollbar Gizlət */
 .app-view::-webkit-scrollbar { display: none; }
-.app-view { -ms-overflow-style: none; scrollbar-width: none; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -298,91 +312,117 @@ body, html {
 }
 
 /* ==========================================================================
-                                VIEW 6: SEARCH 
+                                VIEW 6: SEARCH (MODERNIZED)
    ========================================================================== */
-/* --- Axtarış Konteyneri --- */
+
+/* --- Ana Konteyner --- */
 .search-container { 
     padding: 20px; 
-    background: white; 
+    background: var(--white); 
     
-    /* Yalnız aşağı küncləri yuvarlaqlaşdırırıq (Dizayn effekti) */
-    border-bottom-left-radius: 25px; 
-    border-bottom-right-radius: 25px; 
+    /* Yalnız aşağı künclər oval olur */
+    border-bottom-left-radius: 30px; 
+    border-bottom-right-radius: 30px; 
     
-    /* Yuxarıdan əlavə boşluq (Header və ya Notch üçün) */
+    /* Yuxarıdan boşluq */
     padding-top: 60px; 
+    
+    /* Yumşaq kölgə */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    z-index: 20;
+    position: relative;
 }
 
-/* --- Giriş Qrupu (Input + İkon) --- */
-.input-group { 
-    display: flex; 
-    align-items: center; /* Elementləri şaquli mərkəzləyir */
-    margin-bottom: 15px; /* Hər giriş sahəsi arasında boşluq */
+/* --- Marşrut Qutusu (Flex Layout) --- */
+.route-box {
+    display: flex;
+    gap: 15px; /* Nöqtələr və Inputlar arası məsafə */
 }
 
-/* --- Rəngli Nöqtələr (A və B məntəqəsi göstəriciləri) --- */
+/* --- Sol Tərəf: Vizual Göstəricilər --- */
+.route-indicators {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12px; /* Inputun mətni ilə eyniləşdirmək üçün */
+}
+
 .dot { 
-    width: 8px; 
-    height: 8px; 
-    border-radius: 50%; /* Tam dairə */
-    margin-right: 15px; /* Inputdan məsafə */
+    width: 10px; height: 10px; border-radius: 50%; 
+    flex-shrink: 0;
+}
+.dot-blue { background: var(--brand-blue); box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.2); }
+.dot-square { width: 10px; height: 10px; background: var(--text-dark); border-radius: 2px; } /* Təyinat kvadrat olur */
+
+/* Birləşdirici Xətt */
+.line-connector {
+    width: 2px;
+    flex-grow: 0.75; /* Boşluğu doldurur */
+    background: #e0e0e0;
+    margin: 5px 0;
+    border-radius: 2px;
 }
 
-/* Başlanğıc nöqtəsi rəngi */
-.dot-blue { 
-    background: var(--brand-blue); 
+/* --- Sağ Tərəf: Inputlar --- */
+.route-inputs {
+    flex-grow: 1;
 }
 
-/* Təyinat nöqtəsi rəngi */
-.dot-green { 
-    background: var(--brand-green); 
-}
-
-/* --- Təmiz Input Sahəsi --- */
-.clean-input { 
-    border: 1px solid #eee; 
-    background: var(--bg-grey); /* Yüngül boz fon */
-    padding: 12px; 
-    border-radius: 10px; 
+/* --- Modern Soft Input --- */
+.soft-input { 
+    background: #f0f2f5; /* Çox açıq boz */
+    border: none;        /* Çərçivə yoxdur */
+    padding: 14px 16px; 
+    border-radius: 12px; 
     width: 100%; 
-    font-size: 16px; /* Mobil üçün oxunaqlı ölçü */
-    outline: none;   /* Standart mavi çərçivəni ləğv et */
+    font-size: 16px; 
+    font-weight: 500;
     color: var(--text-dark);
+    transition: 0.2s;
 }
 
-/* Inputa klikləyəndə baş verən effekt */
-.clean-input:focus { 
-    border-color: var(--brand-blue); /* Çərçivə göy olur */
-    background: white;               /* Fon ağarır */
+.soft-input:focus {
+    background: #e4e6eb; /* Aktiv olanda biraz tündləşir */
+    box-shadow: none;    /* Parlama yoxdur, sadə və təmiz */
 }
 
-/* --- Son Axtarışlar Siyahısı --- */
+/* --- Son Axtarışlar (Kartlar) --- */
 .recent-list { 
     padding: 20px; 
 }
 
-/* --- Siyahı Elementi (Tək sətir) --- */
-.recent-item { 
+.recent-card { 
     display: flex; 
     align-items: center; 
-    padding: 15px 0; 
-    border-bottom: 1px solid #eee; /* Alt xətt */
-    cursor: pointer; 
+    padding: 15px; 
+    background: var(--white);
+    margin-bottom: 12px; 
+    border-radius: 20px;
+    
+    /* Kart effekti */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.1s, box-shadow 0.1s;
+    border: 1px solid transparent;
 }
 
-/* --- İkon Qutusu (Məkan ikonu üçün fon) --- */
-.icon-box { 
-    width: 35px; 
-    height: 35px; 
-    background: #eef; /* Çox açıq göy/boz fon */
-    border-radius: 50%; /* Dairəvi */
+.recent-card:active {
+    transform: scale(0.98);
+    background: #f9f9f9;
+}
+
+/* --- İkon Dairəsi --- */
+.icon-circle { 
+    width: 40px; 
+    height: 40px; 
+    background: #f0f2f5; 
+    border-radius: 50%; 
     
     display: flex; 
     align-items: center; 
     justify-content: center; 
     
     margin-right: 15px; 
-    font-size: 14px; 
+    font-size: 18px; 
 }
 
 /* ==========================================================================
@@ -407,22 +447,21 @@ body, html {
 
 /* --- Filtr Düyməsi (Ümumi Stil) --- */
 .filter-chip { 
-    padding: 8px 18px; 
-    border-radius: 20px; 
+    padding: 10px 20px; /* Daha böyük sahə */
+    border-radius: 30px; /* Tam oval (Pill shape) */
     font-size: 13px; 
     font-weight: 600; 
     cursor: pointer; 
-    
-    /* Yazı uzun olsa belə qırılmasın (bir sətirdə qalsın) */
     white-space: nowrap; 
-    
-    transition: 0.2s; /* Rəng dəyişimi üçün yumşaq keçid */
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Yüngül kölgə */
 }
 
-/* Seçilmiş Filtr (Aktiv) */
+/* Aktiv olanda parıltı effekti */
 .chip-active { 
     background: var(--brand-blue); 
     color: white; 
+    box-shadow: 0 8px 20px rgba(0, 82, 255, 0.3); /* Rəngli kölgə */
 }
 
 /* Seçilməmiş Filtr (Passiv) */
@@ -441,28 +480,39 @@ body, html {
 
 /* --- Taksi Kartı (Ana Komponent) --- */
 .taxi-card {
-    background: var(--white); /* FIX */
-    color: var(--text-dark);  /* Yazı rəngini də avtomatik edirik */
-    border-radius: 20px; 
-    padding: 15px; 
-    margin-bottom: 15px; /* Kartlar arası məsafə */
+    background: var(--white); 
+    color: var(--text-dark);
+    border-radius: 24px; /* Daha oval künclər */
+    padding: 18px;       /* İçini biraz genişlətdik */
+    margin-bottom: 15px; 
     
     display: flex; 
-    align-items: center; /* Şaquli mərkəzləmə */
+    align-items: center; 
     position: relative;
+    border: 1px solid transparent; /* Sərhəd yeri ayırırıq */
     
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* Yüngül kölgə */
-    transition: transform 0.1s; 
+    /* YENİ: Yumşaq Kölgə */
+    box-shadow: var(--shadow-soft);
+    
+    /* YENİ: Hamar Keçidlər */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Başlanğıcda gizli (Animasiya üçün) */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards; /* Aşağıda yaradacağıq */
 }
 
-/* Karta basanda yüngülcə kiçilmə effekti (Klik hissi) */
-.taxi-card:active { 
-    transform: scale(0.98); 
+/* Hover effekti (Kompüterdə və ya basanda) */
+.taxi-card:active, .taxi-card:hover { 
+    transform: translateY(-2px) scale(1.01); /* Yüngülcə yuxarı qalxır */
+    box-shadow: var(--shadow-hover);
 }
 
-/* Ən Ucuz Qiymət üçün Yaşıl Çərçivə */
+/* Ən Ucuz Qiymət üçün Çərçivə */
 .best-border { 
-    border: 2px solid var(--brand-green); 
+    border-color: var(--brand-green); 
+    background: linear-gradient(to right, #f0fff4, #ffffff); /* Çox yüngül qradient */
 }
 
 /* --- Taksi Logoları (Ümumi Qutu) --- */
@@ -511,16 +561,30 @@ body, html {
     font-weight: bold;
 }
 
-.btn-green { 
+.btn-green, .btn-primary { 
     background: var(--brand-green); 
     color: white; 
     border: none; 
+    padding: 16px; 
+    border-radius: 18px; /* Daha modern künclər */
+    font-weight: 700; 
+    font-size: 16px; 
+    width: 100%; 
+    cursor: pointer; 
+    box-shadow: 0 4px 15px rgba(140, 198, 63, 0.4); /* Parlaq kölgə */
+    transition: transform 0.1s;
 }
+.btn-green:active { transform: scale(0.98); }
 
 .btn-outline { 
     background: transparent; 
-    border: 1px solid #ddd; 
-    color: var(--brand-blue); 
+    border: 2px solid #eee; /* Qalın çərçivə */
+    color: var(--text-light); 
+    padding: 14px; 
+    border-radius: 18px; 
+    font-weight: 600; 
+    width: 100%; 
+    cursor: pointer; 
 }
 
 /* --- Üzən Bildiriş Düyməsi (FAB - Floating Action Button) --- */
@@ -580,20 +644,67 @@ background: white;
     to { transform: translateY(0); }
 }
 
-/* Loader (Fırlanan dairə) */
+/* --- MODERN LOADER (Radar Effekti) --- */
 .loader {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid var(--brand-blue);
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px; /* Aşağıdan biraz boşluq */
+    position: relative;
+    
+    /* Mərkəzləmə */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Arxa fon */
+    background: rgba(140, 198, 63, 0.1); /* Brend rənginin açıq tonu */
     border-radius: 50%;
-    margin: 0 auto;
-    animation: spin 1s linear infinite;
+    
+    /* Köhnə borderləri sıfırlayırıq */
+    border: none; 
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Genişlənən Dalğa (Radar Siqnalı) */
+.loader::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--brand-blue);
+    opacity: 0;
+    z-index: 1;
+    
+    /* Sonsuz dalğa animasiyası */
+    animation: radar-wave 2s infinite ease-out;
+}
+
+/* İkinci Dalğa (Gecikmə ilə) */
+.loader::after {
+    /* Mərkəzdə Taksi İkonu */
+    content: '🚖'; 
+    font-size: 32px;
+    z-index: 2;
+    animation: car-pulse 1s infinite alternate;
+}
+
+/* --- ANİMASİYALAR --- */
+@keyframes radar-wave {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+        border-width: 4px;
+    }
+    100% {
+        transform: scale(1.8); /* Dairədən kənara çıxır */
+        opacity: 0;
+        border-width: 0px;
+    }
+}
+
+@keyframes car-pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
 }
 
 /* ==========================================================================
@@ -622,7 +733,12 @@ background: white;
     z-index: 2;
     border: 3px solid rgba(255,255,255,0.3);
 }
-
+#view-call {
+    /* Gradient Fon - Daha Premium */
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    z-index: 2000;
+    align-items: center; justify-content: center; color: white; text-align: center;
+}
 /* Dairəvi dalğa animasiyası */
 .call-pulse {
     position: absolute;
@@ -854,4 +970,137 @@ body.dark-mode .phone-case {
     font-size: 10px; 
     color: #999; 
     margin-top: 5px; 
+}
+
+/* Kartların aşağıdan yuxarı süzülərək gəlməsi */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+                 SHOWCASE (TƏQDİMAT) LAYOUT - YENİ
+   ========================================================================== */
+
+/* Arxa fonu dəyişirik - Təqdimat üçün */
+body {
+    background-color: #f0f2f5; /* Açıq boz fon */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.showcase-grid {
+    width: 90%;
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: 400px 1fr; /* Sol: Telefon, Sağ: Mətn */
+    gap: 80px;
+    align-items: center;
+}
+
+/* --- 3D TELEFON ÇƏRÇİVƏSİ --- */
+.phone-3d {
+    width: 390px;
+    height: 800px;
+    background: #1f1f1f;
+    border-radius: 55px;
+    padding: 12px;
+    box-shadow: 
+        0 0 0 2px #444,
+        0 40px 80px -20px rgba(0,0,0,0.4),
+        inset 0 0 20px rgba(0,0,0,0.5);
+    position: relative;
+    /* 3D Dönmə Effekti */
+    transform: rotateY(-10deg) rotateX(5deg);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 100;
+}
+
+.phone-3d:hover {
+    transform: rotateY(0deg) rotateX(0deg) scale(1.02); /* Üstünə gələndə düzəlir */
+}
+
+/* Telefon Düymələri */
+.p-btn { position: absolute; background: #2a2a2a; border-radius: 4px; left: -4px; width: 4px; }
+.p-vol-up { top: 120px; height: 40px; }
+.p-vol-down { top: 170px; height: 40px; }
+.p-power { right: -4px; top: 140px; height: 60px; left: auto; }
+
+/* Telefon Ekranı */
+.phone-screen {
+    background: #000;
+    width: 100%;
+    height: 100%;
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* iOS Divar Kağızı */
+.ios-wallpaper {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1621252179027-94459d27d3ee?q=80&w=1000&auto=format&fit=crop');
+    background-size: cover; background-position: center;
+    z-index: 1;
+}
+
+/* --- iOS ANA EKRAN (ICONS) --- */
+.ios-home {
+    position: relative; z-index: 10;
+    padding-top: 60px;
+    height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    transition: 0.4s ease;
+}
+.ios-home.hidden { opacity: 0; transform: scale(1.5); pointer-events: none; }
+
+.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px; width: 100%; }
+.app-icon { width: 60px; height: 60px; border-radius: 14px; background: white; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.app-icon:active { transform: scale(0.9); }
+.app-label { color: white; font-size: 11px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); font-weight: 500; }
+
+/* SmartYol İkonu (Xüsusi) */
+.icon-smartyol {
+    background: linear-gradient(135deg, #0052FF, #1B3B75);
+    color: white; font-weight: 900; font-size: 13px; line-height: 1; text-align: center; padding: 14px 0;
+}
+
+/* --- SMARTYOL APP KONTEYNERİ (GİZLİ) --- */
+#smartyol-app-container {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fff;
+    z-index: 20;
+    opacity: 0; pointer-events: none; transform: scale(0.8);
+    transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border-radius: 44px; overflow: hidden;
+}
+#smartyol-app-container.active { opacity: 1; pointer-events: auto; transform: scale(1); }
+
+/* --- SAĞ TƏRƏF (BİZNES PLAN) --- */
+.pitch-content { animation: fadeIn 1s ease-out; color: #1A1C1E; }
+.pitch-tag { background: rgba(0, 82, 255, 0.1); color: #0052FF; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; }
+.pitch-title { font-size: 3.5rem; margin: 15px 0; line-height: 1.1; }
+.pitch-title span { color: #0052FF; }
+.pitch-desc { font-size: 1.2rem; color: #555; line-height: 1.6; margin-bottom: 30px; }
+
+/* Home Bar (App Bağlamaq üçün) */
+.home-bar-indicator {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 130px; height: 5px; background: white; border-radius: 10px; 
+    z-index: 100; cursor: pointer; opacity: 0.5;
+}
+.home-bar-indicator:hover { opacity: 1; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .showcase-grid { grid-template-columns: 1fr; text-align: center; height: auto; padding: 50px 0; }
+    body { overflow-y: auto; height: auto; }
+    .phone-3d { margin: 0 auto; transform: none !important; }
 }
