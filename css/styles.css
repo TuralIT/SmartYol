@@ -147,6 +147,10 @@ body, html {
                                 SCREEN MANAGEMENT
    ========================================================================== */
 /* --- VIEW ANIMATIONS (Sürüşmə Effekti) --- */
+.menu-circle{
+    width: 50px;
+}
+
 .app-view {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-grey);
@@ -1243,4 +1247,46 @@ body {
     .ios-home {
         padding-top: calc(env(safe-area-inset-top, 20px) + 30px);
     }
+}
+
+/* ==========================================================================
+                        UI SIZE UPDATE (Böyütmək üçün)
+   ========================================================================== */
+
+/* 1. Menyu Dairəsi (Hamburger) */
+.menu-circle {
+    width: 50px;        /* 40px-dən 50px-ə qaldırdıq */
+    height: 50px;
+    font-size: 24px;    /* İkonu böyütdük */
+    
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+/* 2. SmartYol Logosu (Ortadakı) */
+.brand-pill {
+    padding: 10px 15px; /* Daxili boşluğu artırdıq */
+    font-size: 15px;    /* Yazı şriftini böyütdük */
+    border-radius: 30px;
+    
+    background: white;
+    font-weight: 800;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* 3. Geri Düyməsi və Digər İkon Düymələr */
+.btn-icon {
+    width: 50px !important;  /* Məcburi böyütmək */
+    height: 50px !important;
+    font-size: 24px !important; /* Ox işarəsini böyütmək */
+    border-radius: 16px !important;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
